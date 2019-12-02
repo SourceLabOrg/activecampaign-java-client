@@ -1,0 +1,10 @@
+{
+  "account": {
+    "name": "Example Account",
+    "accountUrl": "https://www.example.com",
+    "createdTimestamp": "2019-05-15T15:58:16-05:00",
+    "updatedTimestamp": "2019-05-15T15:58:16-05:00",
+    "links": [],
+    "id": "1"
+  }
+}

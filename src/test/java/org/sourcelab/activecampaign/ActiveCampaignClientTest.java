@@ -103,16 +103,28 @@ class ActiveCampaignClientTest {
             .filter((foundAccount) -> foundAccount.getName().equals(accountToCreate.getName()))
             .findFirst();
         assertTrue(createdAccountOptional.isPresent(), "Failed to find our test account " + accountToCreate.getName());
-        final Account createdAccount = createdAccountOptional.get();
+        Account createdAccount = createdAccountOptional.get();
 
-        // Validate account
+        // Validate basic account fields
+        assertNotNull(createdAccount.getId());
         assertEquals(accountToCreate.getName(), createdAccount.getName());
         assertEquals(accountToCreate.getAccountUrl(), createdAccount.getAccountUrl());
 
+        // Re-retrieve
+        createdAccount = apiClient.accountsRetrieve(createdAccount.getId()).getAccount();
+
+        // Validate basic account fields
+        assertNotNull(createdAccount.getId());
+        assertEquals(accountToCreate.getName(), createdAccount.getName());
+        assertEquals(accountToCreate.getAccountUrl(), createdAccount.getAccountUrl());
+
+        // TODO test sideloading?
+
         // Attempt to update account
+        // TODO
 
         // Attempt to delete account.
-
+        // TODO
     }
 
 }

@@ -5,11 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.MapType;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Map;
+
+import static com.fasterxml.jackson.databind.DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE;
 
 /**
  * Creates properly configured Jackson Json Mapper instances.
@@ -35,8 +38,17 @@ public final class JacksonFactory {
         // Configure mapper
         mapper
             .enable(SerializationFeature.WRAP_ROOT_VALUE)
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            .setPropertyNamingStrategy(PropertyNamingStrategy.LOWER_CAMEL_CASE);
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .setPropertyNamingStrategy(PropertyNamingStrategy.LOWER_CAMEL_CASE)
+
+            // Deserialize empty array to null
+            .enable(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT)
+
+            // Deserialize into Jdk8 ZonedDateTime
+            .registerModule(new JavaTimeModule())
+            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            // Dont adjust to local timezone.
+            .disable(ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
     }
 
     /**

@@ -24,9 +24,11 @@ import org.sourcelab.activecampaign.exception.InvalidCredentialsException;
 import org.sourcelab.activecampaign.request.LoginRequest;
 import org.sourcelab.activecampaign.request.account.AccountCreateRequest;
 import org.sourcelab.activecampaign.request.account.AccountListRequest;
+import org.sourcelab.activecampaign.request.account.AccountRetrieveRequest;
 import org.sourcelab.activecampaign.response.JacksonFactory;
 import org.sourcelab.activecampaign.response.account.Account;
 import org.sourcelab.activecampaign.response.account.AccountListResponse;
+import org.sourcelab.activecampaign.response.account.AccountRetrieveResponse;
 import org.sourcelab.activecampaign.response.error.RequestErrorResponse;
 import org.sourcelab.http.rest.HttpClientRestClient;
 import org.sourcelab.http.rest.RestClient;
@@ -87,6 +89,11 @@ public class ActiveCampaignClient {
      */
     public AccountListResponse accountsList() {
         return submitRequest(new AccountListRequest());
+    }
+
+    public AccountRetrieveResponse accountsRetrieve(final Long id) {
+        return submitRequest(new AccountRetrieveRequest(id));
+
     }
 
     /**

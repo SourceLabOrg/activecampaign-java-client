@@ -18,6 +18,7 @@
 package org.sourcelab.activecampaign;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Integration test.
  */
+@Tag("IntegrationTest")
 class ActiveCampaignClientTest {
     private static final Logger logger = LoggerFactory.getLogger(ActiveCampaignClientTest.class);
 

@@ -22,9 +22,12 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sourcelab.activecampaign.response.account.Account;
+import org.sourcelab.activecampaign.response.account.AccountListResponse;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
 import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -74,6 +77,42 @@ class ActiveCampaignClientTest {
     void smokeTest() {
         final boolean isLoginValid = apiClient.loginTest();
         assertTrue(isLoginValid, "Response should be true.");
+    }
+
+    /**
+     * Tests the accounts resource api end points.
+     */
+    @Test
+    void testAccountsResource() {
+        // Create a test account.
+        final Account accountToCreate = Account.newBuilder()
+            .withName("My Account Name " + System.currentTimeMillis())
+            .withName("My Account Name 1575283515866")
+            .withAccountUrl("https://www.test.com/blah")
+            .build();
+
+        // Make api request to create the account
+        //final String resp = apiClient.accountsCreate(newAccount);
+        //logger.info("Create resp: {}", resp);
+
+        final AccountListResponse response = apiClient.accountsList();
+        logger.info("{}", response);
+
+        final Optional<Account> createdAccountOptional = response.getAccounts()
+            .stream()
+            .filter((foundAccount) -> foundAccount.getName().equals(accountToCreate.getName()))
+            .findFirst();
+        assertTrue(createdAccountOptional.isPresent(), "Failed to find our test account " + accountToCreate.getName());
+        final Account createdAccount = createdAccountOptional.get();
+
+        // Validate account
+        assertEquals(accountToCreate.getName(), createdAccount.getName());
+        assertEquals(accountToCreate.getAccountUrl(), createdAccount.getAccountUrl());
+
+        // Attempt to update account
+
+        // Attempt to delete account.
+
     }
 
 }

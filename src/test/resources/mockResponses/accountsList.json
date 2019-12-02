@@ -1,0 +1,21 @@
+{
+  "accounts": [{
+    "name": "My Account Name 1575283515866",
+    "accountUrl": "https:\/\/www.test.com\/blah",
+    "createdTimestamp": "2019-12-02T04:45:17-06:00",
+    "updatedTimestamp": "2019-12-02T04:45:17-06:00",
+    "contactCount": "0",
+    "dealCount": "0",
+    "links": {
+      "notes": "https:\/\/spowis.api-us1.com\/api\/3\/accounts\/1\/notes",
+      "accountCustomFieldData": "https:\/\/spowis.api-us1.com\/api\/3\/accounts\/1\/accountCustomFieldData",
+      "accountContacts": "https:\/\/spowis.api-us1.com\/api\/3\/accounts\/1\/accountContacts",
+      "emailActivities": "https:\/\/spowis.api-us1.com\/api\/3\/accounts\/1\/emailActivities",
+      "contactEmails": "https:\/\/spowis.api-us1.com\/api\/3\/accounts\/1\/contactEmails"
+    },
+    "id": "1"
+  }],
+  "meta": {
+    "total": "1"
+  }
+}

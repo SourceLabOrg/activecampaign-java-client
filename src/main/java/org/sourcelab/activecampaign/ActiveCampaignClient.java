@@ -19,8 +19,15 @@ package org.sourcelab.activecampaign;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sourcelab.activecampaign.exception.ApiErrorException;
 import org.sourcelab.activecampaign.exception.InvalidCredentialsException;
 import org.sourcelab.activecampaign.request.LoginRequest;
+import org.sourcelab.activecampaign.request.account.AccountCreateRequest;
+import org.sourcelab.activecampaign.request.account.AccountListRequest;
+import org.sourcelab.activecampaign.response.JacksonFactory;
+import org.sourcelab.activecampaign.response.account.Account;
+import org.sourcelab.activecampaign.response.account.AccountListResponse;
+import org.sourcelab.activecampaign.response.error.RequestErrorResponse;
 import org.sourcelab.http.rest.HttpClientRestClient;
 import org.sourcelab.http.rest.RestClient;
 import org.sourcelab.http.rest.RestResponse;
@@ -28,7 +35,6 @@ import org.sourcelab.http.rest.exceptions.InvalidRequestException;
 import org.sourcelab.http.rest.exceptions.ResourceNotFoundException;
 import org.sourcelab.http.rest.exceptions.UnauthorizedRequestException;
 import org.sourcelab.http.rest.request.Request;
-import org.sourcelab.http.rest.request.RequestMethod;
 
 import java.io.IOException;
 
@@ -75,6 +81,23 @@ public class ActiveCampaignClient {
         }
     }
 
+    /**
+     * Retrieve all existing accounts.
+     * @return all accounts.
+     */
+    public AccountListResponse accountsList() {
+        return submitRequest(new AccountListRequest());
+    }
+
+    /**
+     * Create a new Account.
+     * @param account the account to create.
+     * @return
+     */
+    public String accountsCreate(final Account account) {
+        return submitRequest(new AccountCreateRequest(account));
+    }
+
     private <T> T submitRequest(final Request<T> request) {
         // Submit request
         final RestResponse restResponse = getRestClient().submitRequest(request);
@@ -117,15 +140,16 @@ public class ActiveCampaignClient {
             }
             errorMsg = errorMsg + " Server responded with: \"" + responseStr + "\"";
             throw new UnauthorizedRequestException(errorMsg, responseCode);
+        } else if (responseCode == 422) {
+                // Attempt to parse error response
+            try {
+                final RequestErrorResponse errorResponse = JacksonFactory.newInstance().readValue(responseStr, RequestErrorResponse.class);
+                throw new ApiErrorException(errorResponse);
+            } catch (final IOException exception) {
+                // swallow
+            }
         }
 
-//        // Attempt to parse error response
-//        try {
-//            final RequestErrorResponse errorResponse = JacksonFactory.newInstance().readValue(responseStr, RequestErrorResponse.class);
-//            throw InvalidRequestException.factory(errorResponse);
-//        } catch (final IOException e) {
-//            // swallow
-//        }
         throw new InvalidRequestException("Invalid response from server: " + responseStr, restResponse.getHttpCode());
     }
 

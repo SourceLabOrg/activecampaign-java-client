@@ -15,32 +15,40 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.response;
+package org.sourcelab.activecampaign.client.request;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sourcelab.http.rest.request.Request;
+import org.sourcelab.http.rest.request.RequestMethod;
+
+import java.io.IOException;
 
 /**
- * Meta response object.
+ * Simple request to validate that the credentials configured are valid.
  */
-public class Meta {
-    private final int total;
+public class LoginRequest implements Request<Boolean> {
+    private static final Logger logger = LoggerFactory.getLogger(LoginRequest.class);
 
-    @JsonCreator
-    public Meta(
-        @JsonProperty("total") final int total
-    ) {
-        this.total = total;
-    }
-
-    public int getTotal() {
-        return total;
+    @Override
+    public String getApiEndpoint() {
+        return "/";
     }
 
     @Override
-    public String toString() {
-        return "Meta{"
-            + "total=" + total
-            + '}';
+    public RequestMethod getRequestMethod() {
+        return RequestMethod.GET;
+    }
+
+    @Override
+    public Object getRequestBody() {
+        return "";
+    }
+
+    @Override
+    public Boolean parseResponse(final String response) throws IOException {
+        // If the request is valid, we just return true.
+        // If the request is invalid, we'll throw an exception.
+        return true;
     }
 }

@@ -15,51 +15,32 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.request.account;
+package org.sourcelab.activecampaign.client.response;
 
-import org.sourcelab.activecampaign.response.account.Account;
-import org.sourcelab.http.rest.request.Request;
-import org.sourcelab.http.rest.request.RequestMethod;
-
-import java.io.IOException;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Represents an account delete request.
+ * Meta response object.
  */
-public class AccountDeleteRequest implements Request<Boolean> {
+public class Meta {
+    private final int total;
 
-    private final long id;
-
-    public AccountDeleteRequest(final long id) {
-        this.id = id;
+    @JsonCreator
+    public Meta(
+        @JsonProperty("total") final int total
+    ) {
+        this.total = total;
     }
 
-    public AccountDeleteRequest(final Account account) {
-        Objects.requireNonNull(account);
-        if (account.getId() == null) {
-            throw new IllegalArgumentException("Account must have Id property set");
-        }
-        this.id = account.getId();
-    }
-
-    @Override
-    public String getApiEndpoint() {
-        return "accounts/" + id;
+    public int getTotal() {
+        return total;
     }
 
     @Override
-    public RequestMethod getRequestMethod() {
-        return RequestMethod.DELETE;
-    }
-
-    @Override
-    public Object getRequestBody() {
-        return "";
-    }
-
-    @Override
-    public Boolean parseResponse(final String response) throws IOException {
-        return true;
+    public String toString() {
+        return "Meta{"
+            + "total=" + total
+            + '}';
     }
 }

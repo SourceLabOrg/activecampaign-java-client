@@ -15,12 +15,12 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.request.account;
+package org.sourcelab.activecampaign.client.request.account;
 
 import org.junit.jupiter.api.Test;
-import org.sourcelab.activecampaign.request.AbstractRequestTest;
-import org.sourcelab.activecampaign.response.account.Account;
-import org.sourcelab.activecampaign.response.account.AccountListResponse;
+import org.sourcelab.activecampaign.client.request.AbstractRequestTest;
+import org.sourcelab.activecampaign.client.response.account.Account;
+import org.sourcelab.activecampaign.client.response.account.AccountListResponse;
 
 import java.io.IOException;
 import java.time.ZonedDateTime;

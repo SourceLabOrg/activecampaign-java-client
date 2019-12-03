@@ -15,12 +15,12 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.request.account;
+package org.sourcelab.activecampaign.client.request.account;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.sourcelab.activecampaign.response.JacksonFactory;
-import org.sourcelab.activecampaign.response.account.Account;
-import org.sourcelab.activecampaign.response.account.AccountResponse;
+import org.sourcelab.activecampaign.client.response.JacksonFactory;
+import org.sourcelab.activecampaign.client.response.account.Account;
+import org.sourcelab.activecampaign.client.response.account.AccountResponse;
 import org.sourcelab.http.rest.request.Request;
 import org.sourcelab.http.rest.request.RequestMethod;
 

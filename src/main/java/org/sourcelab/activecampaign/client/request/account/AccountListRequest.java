@@ -15,35 +15,40 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.exception;
+package org.sourcelab.activecampaign.client.request.account;
 
-import org.sourcelab.activecampaign.client.response.error.RequestErrorResponse;
-import org.sourcelab.http.rest.exceptions.InvalidRequestException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sourcelab.activecampaign.client.response.JacksonFactory;
+import org.sourcelab.activecampaign.client.response.account.AccountListResponse;
+import org.sourcelab.http.rest.request.Request;
+import org.sourcelab.http.rest.request.RequestMethod;
+
+import java.io.IOException;
 
 /**
- * Thrown when the API returns an error.
+ * Represents an account list request.
  */
-public class ApiErrorException extends InvalidRequestException {
-    private final RequestErrorResponse errorResponse;
+public class AccountListRequest implements Request<AccountListResponse> {
+    private static final Logger logger = LoggerFactory.getLogger(AccountListRequest.class);
 
-    public ApiErrorException(final String message, final int errorCode) {
-        super("", errorCode);
-        throw new RuntimeException("Not implemented");
-    }
-
-    public ApiErrorException(final RequestErrorResponse requestErrorResponse) {
-        super(requestErrorResponse.toString(), 422);
-        this.errorResponse = requestErrorResponse;
-    }
-
-    public RequestErrorResponse getErrorResponse() {
-        return errorResponse;
+    @Override
+    public String getApiEndpoint() {
+        return "accounts";
     }
 
     @Override
-    public String toString() {
-        return "ApiErrorException{"
-            + "errorResponse=" + errorResponse
-            + '}';
+    public RequestMethod getRequestMethod() {
+        return RequestMethod.GET;
+    }
+
+    @Override
+    public Object getRequestBody() {
+        return "";
+    }
+
+    @Override
+    public AccountListResponse parseResponse(final String response) throws IOException {
+        return JacksonFactory.newInstance().readValue(response, AccountListResponse.class);
     }
 }

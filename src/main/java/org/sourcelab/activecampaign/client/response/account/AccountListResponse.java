@@ -15,40 +15,52 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.request;
+package org.sourcelab.activecampaign.client.response.account;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sourcelab.http.rest.request.Request;
-import org.sourcelab.http.rest.request.RequestMethod;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.sourcelab.activecampaign.client.response.Meta;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * Simple request to validate that the credentials configured are valid.
+ * Represents the response returned from the accounts list api resource.
  */
-public class LoginRequest implements Request<Boolean> {
-    private static final Logger logger = LoggerFactory.getLogger(LoginRequest.class);
+public class AccountListResponse {
+    private final List<Account> accounts;
+    private final Meta meta;
 
-    @Override
-    public String getApiEndpoint() {
-        return "/";
+    /**
+     * Constructor.
+     */
+    @JsonCreator
+    public AccountListResponse(
+        @JsonProperty("accounts") final List<Account> accounts,
+        @JsonProperty("meta") final Meta meta
+    ) {
+        if (accounts == null) {
+            this.accounts = Collections.emptyList();
+        } else {
+            this.accounts = Collections.unmodifiableList(new ArrayList<>(accounts));
+        }
+        this.meta = meta;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public Meta getMeta() {
+        return meta;
     }
 
     @Override
-    public RequestMethod getRequestMethod() {
-        return RequestMethod.GET;
-    }
-
-    @Override
-    public Object getRequestBody() {
-        return "";
-    }
-
-    @Override
-    public Boolean parseResponse(final String response) throws IOException {
-        // If the request is valid, we just return true.
-        // If the request is invalid, we'll throw an exception.
-        return true;
+    public String toString() {
+        return "AccountListResponse{"
+            + "accounts=" + accounts
+            + ", meta=" + meta
+            + '}';
     }
 }

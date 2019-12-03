@@ -15,32 +15,50 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.response.account;
+package org.sourcelab.activecampaign.client.request.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sourcelab.activecampaign.client.response.JacksonFactory;
+import org.sourcelab.activecampaign.client.response.account.AccountResponse;
+import org.sourcelab.http.rest.request.Request;
+import org.sourcelab.http.rest.request.RequestMethod;
+
+import java.io.IOException;
 
 /**
- * Represents an Account retrieve response.
+ * Represents an account retrieve request.
  */
-public class AccountResponse {
-    private final Account account;
+public class AccountRetrieveRequest implements Request<AccountResponse> {
+    private static final Logger logger = LoggerFactory.getLogger(AccountRetrieveRequest.class);
 
-    public AccountResponse(
-        @JsonProperty("account") final Account account
-    ) {
-        this.account = account;
-    }
+    private final long id;
 
-    public Account getAccount() {
-        return account;
+    /**
+     * Constructor.
+     * @param id of Account to retrieve.
+     */
+    public AccountRetrieveRequest(final long id) {
+        this.id = id;
     }
 
     @Override
-    public String toString() {
-        return "AccountRetrieveRespose{"
-            + "account=" + account
-            + '}';
+    public String getApiEndpoint() {
+        return "accounts/" + id;
+    }
+
+    @Override
+    public RequestMethod getRequestMethod() {
+        return RequestMethod.GET;
+    }
+
+    @Override
+    public Object getRequestBody() {
+        return "";
+    }
+
+    @Override
+    public AccountResponse parseResponse(final String response) throws IOException {
+        return JacksonFactory.newInstance().readValue(response, AccountResponse.class);
     }
 }

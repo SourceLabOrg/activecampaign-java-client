@@ -15,28 +15,35 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.request;
+package org.sourcelab.activecampaign.client.response.error;
 
-import org.apache.commons.codec.Charsets;
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.IOException;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
- *
+ * Represents an error returned from the API.
  */
-public class AbstractRequestTest {
-    /**
-     * Utility method to help load mock responses from resources.
-     * @param fileName file name to load from resources
-     * @return The contents of the file, as a UTF-8 string.
-     * @throws IOException on error reading from resource file.
-     */
-    public String readFile(final String fileName) throws IOException {
-        final URL inputFile = getClass().getClassLoader().getResource("mockResponses/" + fileName);
-        return IOUtils.toString(inputFile, Charsets.UTF_8);
+public class RequestErrorResponse {
+    private final List<Error> errors;
+
+    @JsonCreator
+    public RequestErrorResponse(
+        @JsonProperty("errors") final List<Error> errors) {
+        this.errors = Collections.unmodifiableList(new ArrayList<>(errors));
+    }
+
+    public List<Error> getErrors() {
+        return errors;
+    }
+
+    @Override
+    public String toString() {
+        return "RequestErrorResponse{"
+            + "errors=" + errors
+            + '}';
     }
 }

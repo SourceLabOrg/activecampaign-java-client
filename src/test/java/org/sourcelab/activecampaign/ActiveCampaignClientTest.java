@@ -17,14 +17,15 @@
 
 package org.sourcelab.activecampaign;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sourcelab.activecampaign.response.account.Account;
-import org.sourcelab.activecampaign.response.account.AccountListResponse;
-import org.sourcelab.activecampaign.response.account.AccountResponse;
+import org.sourcelab.activecampaign.client.response.account.Account;
+import org.sourcelab.activecampaign.client.response.account.AccountListResponse;
+import org.sourcelab.activecampaign.client.response.account.AccountResponse;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,7 +35,7 @@ import java.util.Properties;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Integration test.
+ * Integration test of client API.
  */
 @Tag("IntegrationTest")
 class ActiveCampaignClientTest {
@@ -68,6 +69,17 @@ class ActiveCampaignClientTest {
 
         apiConfig = new ApiConfig(activeCampaignAccountName, activeCampaignApiToken);
         apiClient = new ActiveCampaignClient(apiConfig);
+    }
+
+    /**
+     * Cleanup.
+     */
+    @AfterAll
+    static void tearDown() {
+        if (apiClient != null) {
+            apiClient.close();
+            apiClient = null;
+        }
     }
 
     /**

@@ -107,6 +107,18 @@ public class Account {
     }
 
     /**
+     * Convert to a builder instance.
+     * @return Builder instance populated with values from the Account object.
+     */
+    public Account.Builder toBuilder() {
+        return new Builder()
+            .withId(getId())
+            .withName(getName())
+            .withAccountUrl(getAccountUrl());
+
+    }
+
+    /**
      * New Account Builder instance.
      * @return account builder instance.
      */
@@ -159,16 +171,6 @@ public class Account {
 
         public Builder withAccountUrl(String accountUrl) {
             this.accountUrl = accountUrl;
-            return this;
-        }
-
-        public Builder withContactCount(long contactCount) {
-            this.contactCount = contactCount;
-            return this;
-        }
-
-        public Builder withDealCount(long dealCount) {
-            this.dealCount = dealCount;
             return this;
         }
 

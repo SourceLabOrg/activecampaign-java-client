@@ -15,32 +15,51 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.response.account;
+package org.sourcelab.activecampaign.request.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.sourcelab.activecampaign.response.account.Account;
+import org.sourcelab.http.rest.request.Request;
+import org.sourcelab.http.rest.request.RequestMethod;
+
+import java.io.IOException;
+import java.util.Objects;
 
 /**
- * Represents an Account retrieve response.
+ * Represents an account delete request.
  */
-public class AccountRetrieveResponse {
-    private final Account account;
+public class AccountDeleteRequest implements Request<Boolean> {
 
-    public AccountRetrieveResponse(
-        @JsonProperty("account") final Account account
-    ) {
-        this.account = account;
+    private final long id;
+
+    public AccountDeleteRequest(final long id) {
+        this.id = id;
     }
 
-    public Account getAccount() {
-        return account;
+    public AccountDeleteRequest(final Account account) {
+        Objects.requireNonNull(account);
+        if (account.getId() == null) {
+            throw new IllegalArgumentException("Account must have Id property set");
+        }
+        this.id = account.getId();
     }
 
     @Override
-    public String toString() {
-        return "AccountRetrieveRespose{"
-            + "account=" + account
-            + '}';
+    public String getApiEndpoint() {
+        return "accounts/" + id;
+    }
+
+    @Override
+    public RequestMethod getRequestMethod() {
+        return RequestMethod.DELETE;
+    }
+
+    @Override
+    public Object getRequestBody() {
+        return "";
+    }
+
+    @Override
+    public Boolean parseResponse(final String response) throws IOException {
+        return true;
     }
 }

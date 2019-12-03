@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sourcelab.activecampaign.response.account.Account;
 import org.sourcelab.activecampaign.response.account.AccountListResponse;
+import org.sourcelab.activecampaign.response.account.AccountResponse;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -92,11 +93,13 @@ class ActiveCampaignClientTest {
             .build();
 
         // Make api request to create the account
-        //final String resp = apiClient.accountsCreate(newAccount);
-        //logger.info("Create resp: {}", resp);
+        final AccountResponse resp = apiClient.accountCreate(accountToCreate);
+        assertNotNull(resp);
+        assertNotNull(resp.getAccount());
+        assertNotNull(resp.getAccount().getId());
 
-        final AccountListResponse response = apiClient.accountsList();
-        logger.info("{}", response);
+        final AccountListResponse response = apiClient.accountList();
+        //logger.info("{}", response);
 
         final Optional<Account> createdAccountOptional = response.getAccounts()
             .stream()
@@ -121,10 +124,21 @@ class ActiveCampaignClientTest {
         // TODO test sideloading?
 
         // Attempt to update account
-        // TODO
+        final String updatedName = "My Updated Name " + System.currentTimeMillis();
+        final Account toUpdateAccount = createdAccount
+            .toBuilder()
+            .withName(updatedName)
+            .build();
+        final Account updatedAccount = apiClient.accountUpdate(toUpdateAccount).getAccount();
+
+        // Validate it was updated.
+        assertEquals(createdAccount.getId(), updatedAccount.getId());
+        assertEquals(updatedName, updatedAccount.getName());
+        assertEquals(createdAccount.getAccountUrl(), updatedAccount.getAccountUrl());
 
         // Attempt to delete account.
-        // TODO
+        final boolean deleteResult = apiClient.accountDelete(updatedAccount);
+        assertTrue(deleteResult);
     }
 
 }

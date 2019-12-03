@@ -18,8 +18,6 @@
 package org.sourcelab.activecampaign.request.account;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sourcelab.activecampaign.response.JacksonFactory;
 import org.sourcelab.activecampaign.response.account.Account;
 import org.sourcelab.activecampaign.response.account.AccountResponse;
@@ -30,28 +28,32 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * Represents an account create request.
+ * Represents an account retrieve request.
  */
-public class AccountCreateRequest implements Request<AccountResponse> {
+public class AccountUpdateRequest implements Request<AccountResponse> {
+
     private final Account account;
 
     /**
      * Constructor.
-     * @param account The account instance to create.
+     * @param account The account instance to update.
      */
-    public AccountCreateRequest(final Account account) {
+    public AccountUpdateRequest(final Account account) {
         Objects.requireNonNull(account);
+        if (account.getId() == null) {
+            throw new IllegalArgumentException("Account must have Id property set");
+        }
         this.account = account;
     }
 
     @Override
     public String getApiEndpoint() {
-        return "accounts";
+        return "accounts/" + account.getId();
     }
 
     @Override
     public RequestMethod getRequestMethod() {
-        return RequestMethod.POST;
+        return RequestMethod.PUT;
     }
 
     @Override

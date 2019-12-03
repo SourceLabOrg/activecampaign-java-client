@@ -23,12 +23,14 @@ import org.sourcelab.activecampaign.exception.ApiErrorException;
 import org.sourcelab.activecampaign.exception.InvalidCredentialsException;
 import org.sourcelab.activecampaign.request.LoginRequest;
 import org.sourcelab.activecampaign.request.account.AccountCreateRequest;
+import org.sourcelab.activecampaign.request.account.AccountDeleteRequest;
 import org.sourcelab.activecampaign.request.account.AccountListRequest;
 import org.sourcelab.activecampaign.request.account.AccountRetrieveRequest;
+import org.sourcelab.activecampaign.request.account.AccountUpdateRequest;
 import org.sourcelab.activecampaign.response.JacksonFactory;
 import org.sourcelab.activecampaign.response.account.Account;
 import org.sourcelab.activecampaign.response.account.AccountListResponse;
-import org.sourcelab.activecampaign.response.account.AccountRetrieveResponse;
+import org.sourcelab.activecampaign.response.account.AccountResponse;
 import org.sourcelab.activecampaign.response.error.RequestErrorResponse;
 import org.sourcelab.http.rest.HttpClientRestClient;
 import org.sourcelab.http.rest.RestClient;
@@ -87,11 +89,11 @@ public class ActiveCampaignClient {
      * Retrieve all existing accounts.
      * @return all accounts.
      */
-    public AccountListResponse accountsList() {
+    public AccountListResponse accountList() {
         return submitRequest(new AccountListRequest());
     }
 
-    public AccountRetrieveResponse accountsRetrieve(final Long id) {
+    public AccountResponse accountsRetrieve(final Long id) {
         return submitRequest(new AccountRetrieveRequest(id));
 
     }
@@ -99,10 +101,37 @@ public class ActiveCampaignClient {
     /**
      * Create a new Account.
      * @param account the account to create.
-     * @return
+     * @return Account create response.
      */
-    public String accountsCreate(final Account account) {
+    public AccountResponse accountCreate(final Account account) {
         return submitRequest(new AccountCreateRequest(account));
+    }
+
+    /**
+     * Update an existing account instance.
+     * @param account defines the account to update.
+     * @return Account update response.
+     */
+    public AccountResponse accountUpdate(final Account account) {
+        return submitRequest(new AccountUpdateRequest(account));
+    }
+
+    /**
+     * Update an existing account instance.
+     * @param id defines the account to delete.
+     * @return Account update response.
+     */
+    public boolean accountDelete(final long id) {
+        return submitRequest(new AccountDeleteRequest(id));
+    }
+
+    /**
+     * Update an existing account instance.
+     * @param account defines the account to delete.
+     * @return Account update response.
+     */
+    public boolean accountDelete(final Account account) {
+        return submitRequest(new AccountDeleteRequest(account));
     }
 
     private <T> T submitRequest(final Request<T> request) {

@@ -45,7 +45,7 @@ import java.io.IOException;
 /**
  * ActiveCampaign API client.
  */
-public class ActiveCampaignClient {
+public class ActiveCampaignClient implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(ActiveCampaignClient.class);
 
     /**
@@ -201,5 +201,12 @@ public class ActiveCampaignClient {
 
         // return our rest client.
         return restClient;
+    }
+
+    @Override
+    public void close() throws Exception {
+        if (isInitialized) {
+            restClient.close();
+        }
     }
 }

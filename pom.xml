@@ -220,7 +220,7 @@
                 <artifactId>license-maven-plugin</artifactId>
                 <version>3.0</version>
                 <configuration>
-                    <header>build/LICENSE.txt</header>
+                    <header>LICENSE.txt</header>
                     <excludes>
                         <exclude>**/.md</exclude>
                         <exclude>**/.bak</exclude>

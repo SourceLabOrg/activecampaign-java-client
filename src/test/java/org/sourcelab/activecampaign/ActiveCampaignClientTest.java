@@ -66,8 +66,7 @@ class ActiveCampaignClientTest {
             );
         }
 
-        apiConfig = new ApiConfig(activeCampaignAccountName)
-            .withApiToken(activeCampaignApiToken);
+        apiConfig = new ApiConfig(activeCampaignAccountName, activeCampaignApiToken);
         apiClient = new ActiveCampaignClient(apiConfig);
     }
 

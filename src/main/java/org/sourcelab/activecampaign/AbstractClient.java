@@ -19,10 +19,10 @@ package org.sourcelab.activecampaign;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sourcelab.activecampaign.exception.ApiErrorException;
-import org.sourcelab.activecampaign.exception.InvalidCredentialsException;
 import org.sourcelab.activecampaign.client.response.JacksonFactory;
 import org.sourcelab.activecampaign.client.response.error.RequestErrorResponse;
+import org.sourcelab.activecampaign.exception.ApiErrorException;
+import org.sourcelab.activecampaign.exception.InvalidCredentialsException;
 import org.sourcelab.http.rest.HttpClientRestClient;
 import org.sourcelab.http.rest.RestClient;
 import org.sourcelab.http.rest.RestResponse;

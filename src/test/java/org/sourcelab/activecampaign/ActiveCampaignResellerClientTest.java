@@ -20,8 +20,19 @@ package org.sourcelab.activecampaign;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sourcelab.activecampaign.reseller.request.AccountListRequest;
+import org.sourcelab.activecampaign.reseller.request.AccountPlansRequest;
+import org.sourcelab.activecampaign.reseller.request.AccountScoringRequest;
+import org.sourcelab.activecampaign.reseller.request.AccountStatusSetRequest;
+import org.sourcelab.activecampaign.reseller.response.AccountListResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountNameCheckResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountPlansResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountScoringResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountStatusResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountStatusSetResponse;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,7 +67,7 @@ class ActiveCampaignResellerClientTest {
         if (resellerApiToken == null) {
             throw new RuntimeException(
                 "To run the integration tests you must create a resource file named test_reseller_credentials.properties which contains the properties:\n"
-                    + " api_token\n\n"
+                + " api_token\n\n"
             );
         }
 
@@ -75,4 +86,71 @@ class ActiveCampaignResellerClientTest {
         }
     }
 
+    /**
+     * Test listing accounts.
+     */
+    @Test
+    void testAccountList() {
+        final AccountListResponse result = apiClient.accountList(new AccountListRequest());
+        logger.info("Resp: {}", result);
+    }
+
+    /**
+     * Test account name check.
+     */
+    @Test
+    void testAccountNameCheck() {
+        final AccountNameCheckResponse responseTaken = apiClient.accountNameCheck("bob");
+        assertTrue(responseTaken.isTaken());
+        assertFalse(responseTaken.isAvailable());
+
+        final AccountNameCheckResponse responseAvailable = apiClient.accountNameCheck("bo123123213b");
+        assertFalse(responseAvailable.isTaken());
+        assertTrue(responseAvailable.isAvailable());
+    }
+
+    /**
+     * Test listing accounts.
+     */
+    @Test
+    void testAccountPlans() {
+        final AccountPlansResponse result = apiClient.accountPlans(new AccountPlansRequest());
+        logger.info("Resp: {}", result);
+    }
+
+    /**
+     * Test getting account status.
+     */
+    @Test
+    void testAccountStatus() {
+        final AccountStatusResponse result = apiClient.accountStatus("effortlessdemo");
+        logger.info("Resp: {}", result);
+    }
+
+    /**
+     * Test listing accounts.
+     */
+    @Test
+    void testAccountStatusSet() {
+        final AccountStatusSetRequest request = new AccountStatusSetRequest()
+            .withAccount("bob")
+            .withActive()
+            .withMessage("Test Message Here");
+
+        final AccountStatusSetResponse result = apiClient.accountStatusSet(request);
+        logger.info("Resp: {}", result);
+    }
+
+    /**
+     * Test enabling/disabling account scoring.
+     */
+    @Test
+    void testAccountScoring() {
+        final AccountScoringRequest request = new AccountScoringRequest()
+            .withAccount("bob")
+            .withActive();
+
+        final AccountScoringResponse result = apiClient.accountScoring(request);
+        logger.info("Resp: {}", result);
+    }
 }

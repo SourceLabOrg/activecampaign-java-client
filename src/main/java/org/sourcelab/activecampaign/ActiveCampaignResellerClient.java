@@ -17,16 +17,23 @@
 
 package org.sourcelab.activecampaign;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sourcelab.activecampaign.reseller.request.AccountListRequest;
+import org.sourcelab.activecampaign.reseller.request.AccountNameCheckRequest;
+import org.sourcelab.activecampaign.reseller.request.AccountPlansRequest;
+import org.sourcelab.activecampaign.reseller.request.AccountScoringRequest;
+import org.sourcelab.activecampaign.reseller.request.AccountStatusRequest;
+import org.sourcelab.activecampaign.reseller.request.AccountStatusSetRequest;
+import org.sourcelab.activecampaign.reseller.response.AccountListResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountNameCheckResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountPlansResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountScoringResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountStatusResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountStatusSetResponse;
 
 /**
  * Active Campaign Reseller API client.
  */
 public class ActiveCampaignResellerClient extends AbstractClient {
-    private static final Logger logger = LoggerFactory.getLogger(ActiveCampaignResellerClient.class);
-
     /**
      * Constructor.
      *
@@ -36,7 +43,36 @@ public class ActiveCampaignResellerClient extends AbstractClient {
         super(apiConfig);
     }
 
-    public String listAccounts() {
-        return submitRequest(new AccountListRequest());
+    /**
+     * List all accounts under your reseller account.
+     * @return List of accounts.
+     */
+    public AccountListResponse accountList(final AccountListRequest request) {
+        return submitRequest(request);
+    }
+
+    /**
+     * Check if the request account name is available.
+     * @param account name of account to check.
+     * @return Response.
+     */
+    public AccountNameCheckResponse accountNameCheck(final String account) {
+        return submitRequest(new AccountNameCheckRequest(account));
+    }
+
+    public AccountPlansResponse accountPlans(final AccountPlansRequest request) {
+        return submitRequest(request);
+    }
+
+    public AccountStatusResponse accountStatus(final String account) {
+        return submitRequest(new AccountStatusRequest(account));
+    }
+
+    public AccountStatusSetResponse accountStatusSet(final AccountStatusSetRequest request) {
+        return submitRequest(request);
+    }
+
+    public AccountScoringResponse accountScoring(final AccountScoringRequest request) {
+        return submitRequest(request);
     }
 }

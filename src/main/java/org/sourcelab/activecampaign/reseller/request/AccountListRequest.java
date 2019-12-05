@@ -1,38 +1,53 @@
+/**
+ * Copyright 2019 SourceLab.org https://github.com/SourceLabOrg/activecampaign-java-client
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
+ * persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+ * Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+ * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 package org.sourcelab.activecampaign.reseller.request;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sourcelab.http.rest.request.Request;
-import org.sourcelab.http.rest.request.RequestMethod;
+import org.sourcelab.activecampaign.client.response.JacksonFactory;
+import org.sourcelab.activecampaign.reseller.response.AccountListResponse;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
- *
+ * Account list api request.
  */
-public class AccountListRequest implements Request<String> {
+public class AccountListRequest extends AbstractRequest<AccountListRequest, AccountListResponse> {
 
-    @Override
-    public String getApiEndpoint() {
-        return "";
+    /**
+     * Constructor.
+     */
+    public AccountListRequest() {
+        super("account_list");
     }
 
     @Override
-    public RequestMethod getRequestMethod() {
-        return null;
+    public AccountListResponse parseResponse(final String response) throws IOException {
+        return JacksonFactory.newInstance().readValue(response, AccountListResponse.class);
     }
 
-    @Override
-    public Object getRequestBody() {
-        final Map<String, String> params = new HashMap<>();
-        params.put("api_action", "account_list");
-        return params;
+    public AccountListRequest withSearch(final String search) {
+        return setParam("search", search);
     }
 
-    @Override
-    public String parseResponse(final String response) throws IOException {
-        return response;
+    public AccountListRequest withPlanFilter(final String planfilter) {
+        return setParam("planfilter", planfilter);
+    }
+
+    public AccountListRequest withPage(final int page) {
+        return setParam("page", Integer.toString(page));
     }
 }

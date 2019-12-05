@@ -15,35 +15,40 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.exception;
+package org.sourcelab.activecampaign.client.request;
 
-import org.sourcelab.activecampaign.client.response.error.RequestErrorResponse;
-import org.sourcelab.http.rest.exceptions.InvalidRequestException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sourcelab.http.rest.request.Request;
+import org.sourcelab.http.rest.request.RequestMethod;
+
+import java.io.IOException;
 
 /**
- * Thrown when the API returns an error.
+ * Simple request to validate that the credentials configured are valid.
  */
-public class ApiErrorException extends InvalidRequestException {
-    private final RequestErrorResponse errorResponse;
+public class LoginRequest implements Request<Boolean> {
+    private static final Logger logger = LoggerFactory.getLogger(LoginRequest.class);
 
-    public ApiErrorException(final String message, final int errorCode) {
-        super("", errorCode);
-        throw new RuntimeException("Not implemented");
-    }
-
-    public ApiErrorException(final RequestErrorResponse requestErrorResponse) {
-        super(requestErrorResponse.toString(), 422);
-        this.errorResponse = requestErrorResponse;
-    }
-
-    public RequestErrorResponse getErrorResponse() {
-        return errorResponse;
+    @Override
+    public String getApiEndpoint() {
+        return "/";
     }
 
     @Override
-    public String toString() {
-        return "ApiErrorException{"
-            + "errorResponse=" + errorResponse
-            + '}';
+    public RequestMethod getRequestMethod() {
+        return RequestMethod.GET;
+    }
+
+    @Override
+    public Object getRequestBody() {
+        return "";
+    }
+
+    @Override
+    public Boolean parseResponse(final String response) throws IOException {
+        // If the request is valid, we just return true.
+        // If the request is invalid, we'll throw an exception.
+        return true;
     }
 }

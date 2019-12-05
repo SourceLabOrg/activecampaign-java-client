@@ -15,35 +15,29 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.exception;
-
-import org.sourcelab.activecampaign.client.response.error.RequestErrorResponse;
-import org.sourcelab.http.rest.exceptions.InvalidRequestException;
+package org.sourcelab.activecampaign.reseller.response;
 
 /**
- * Thrown when the API returns an error.
+ * Interface for standard responses.
  */
-public class ApiErrorException extends InvalidRequestException {
-    private final RequestErrorResponse errorResponse;
+public interface StandardResponse {
 
-    public ApiErrorException(final String message, final int errorCode) {
-        super("", errorCode);
-        throw new RuntimeException("Not implemented");
-    }
+    /**
+     * Whether or not the response was successful.
+     * Examples: 1 = yes, 0 = no
+     */
+    int getResultCode();
 
-    public ApiErrorException(final RequestErrorResponse requestErrorResponse) {
-        super(requestErrorResponse.toString(), 422);
-        this.errorResponse = requestErrorResponse;
-    }
+    /**
+     * A custom message that appears explaining what happened.
+     * Example: Account updated.
+     */
+    String getResultMessage();
 
-    public RequestErrorResponse getErrorResponse() {
-        return errorResponse;
-    }
+    /**
+     * Was the request a success.
+     * @return true if yes, false if not.
+     */
+    boolean isSuccess();
 
-    @Override
-    public String toString() {
-        return "ApiErrorException{"
-            + "errorResponse=" + errorResponse
-            + '}';
-    }
 }

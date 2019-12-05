@@ -15,35 +15,38 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.exception;
+package org.sourcelab.activecampaign.reseller.request;
 
-import org.sourcelab.activecampaign.client.response.error.RequestErrorResponse;
-import org.sourcelab.http.rest.exceptions.InvalidRequestException;
+import org.sourcelab.activecampaign.client.response.JacksonFactory;
+import org.sourcelab.activecampaign.reseller.response.AccountEmailTestCreditsApplyResponse;
+import org.sourcelab.http.rest.request.RequestMethod;
+
+import java.io.IOException;
 
 /**
- * Thrown when the API returns an error.
+ * Add reseller's email testing credits to an account.
  */
-public class ApiErrorException extends InvalidRequestException {
-    private final RequestErrorResponse errorResponse;
+public class AccountEmailTestCreditsApplyRequest extends AbstractRequest<AccountEmailTestCreditsApplyRequest, AccountEmailTestCreditsApplyResponse> {
 
-    public ApiErrorException(final String message, final int errorCode) {
-        super("", errorCode);
-        throw new RuntimeException("Not implemented");
+    public AccountEmailTestCreditsApplyRequest() {
+        super("account_emailtest_credits_apply");
     }
 
-    public ApiErrorException(final RequestErrorResponse requestErrorResponse) {
-        super(requestErrorResponse.toString(), 422);
-        this.errorResponse = requestErrorResponse;
+    public AccountEmailTestCreditsApplyRequest withAccount(final String account) {
+        return setParam("account", account);
     }
 
-    public RequestErrorResponse getErrorResponse() {
-        return errorResponse;
+    public AccountEmailTestCreditsApplyRequest withCredits(final int numberOfCredits) {
+        return setParam("credits", Integer.toString(numberOfCredits));
     }
 
     @Override
-    public String toString() {
-        return "ApiErrorException{"
-            + "errorResponse=" + errorResponse
-            + '}';
+    public AccountEmailTestCreditsApplyResponse parseResponse(final String response) throws IOException {
+        return JacksonFactory.newInstance().readValue(response, AccountEmailTestCreditsApplyResponse.class);
+    }
+
+    @Override
+    public RequestMethod getRequestMethod() {
+        return RequestMethod.POST;
     }
 }

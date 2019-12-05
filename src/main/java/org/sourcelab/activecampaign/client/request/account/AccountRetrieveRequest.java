@@ -15,35 +15,50 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.exception;
+package org.sourcelab.activecampaign.client.request.account;
 
-import org.sourcelab.activecampaign.client.response.error.RequestErrorResponse;
-import org.sourcelab.http.rest.exceptions.InvalidRequestException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sourcelab.activecampaign.client.response.JacksonFactory;
+import org.sourcelab.activecampaign.client.response.account.AccountResponse;
+import org.sourcelab.http.rest.request.Request;
+import org.sourcelab.http.rest.request.RequestMethod;
+
+import java.io.IOException;
 
 /**
- * Thrown when the API returns an error.
+ * Represents an account retrieve request.
  */
-public class ApiErrorException extends InvalidRequestException {
-    private final RequestErrorResponse errorResponse;
+public class AccountRetrieveRequest implements Request<AccountResponse> {
+    private static final Logger logger = LoggerFactory.getLogger(AccountRetrieveRequest.class);
 
-    public ApiErrorException(final String message, final int errorCode) {
-        super("", errorCode);
-        throw new RuntimeException("Not implemented");
-    }
+    private final long id;
 
-    public ApiErrorException(final RequestErrorResponse requestErrorResponse) {
-        super(requestErrorResponse.toString(), 422);
-        this.errorResponse = requestErrorResponse;
-    }
-
-    public RequestErrorResponse getErrorResponse() {
-        return errorResponse;
+    /**
+     * Constructor.
+     * @param id of Account to retrieve.
+     */
+    public AccountRetrieveRequest(final long id) {
+        this.id = id;
     }
 
     @Override
-    public String toString() {
-        return "ApiErrorException{"
-            + "errorResponse=" + errorResponse
-            + '}';
+    public String getApiEndpoint() {
+        return "accounts/" + id;
+    }
+
+    @Override
+    public RequestMethod getRequestMethod() {
+        return RequestMethod.GET;
+    }
+
+    @Override
+    public Object getRequestBody() {
+        return "";
+    }
+
+    @Override
+    public AccountResponse parseResponse(final String response) throws IOException {
+        return JacksonFactory.newInstance().readValue(response, AccountResponse.class);
     }
 }

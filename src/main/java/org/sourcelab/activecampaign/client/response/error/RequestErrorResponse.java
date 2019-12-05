@@ -15,35 +15,35 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.exception;
+package org.sourcelab.activecampaign.client.response.error;
 
-import org.sourcelab.activecampaign.client.response.error.RequestErrorResponse;
-import org.sourcelab.http.rest.exceptions.InvalidRequestException;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * Thrown when the API returns an error.
+ * Represents an error returned from the API.
  */
-public class ApiErrorException extends InvalidRequestException {
-    private final RequestErrorResponse errorResponse;
+public class RequestErrorResponse {
+    private final List<Error> errors;
 
-    public ApiErrorException(final String message, final int errorCode) {
-        super("", errorCode);
-        throw new RuntimeException("Not implemented");
+    @JsonCreator
+    public RequestErrorResponse(
+        @JsonProperty("errors") final List<Error> errors) {
+        this.errors = Collections.unmodifiableList(new ArrayList<>(errors));
     }
 
-    public ApiErrorException(final RequestErrorResponse requestErrorResponse) {
-        super(requestErrorResponse.toString(), 422);
-        this.errorResponse = requestErrorResponse;
-    }
-
-    public RequestErrorResponse getErrorResponse() {
-        return errorResponse;
+    public List<Error> getErrors() {
+        return errors;
     }
 
     @Override
     public String toString() {
-        return "ApiErrorException{"
-            + "errorResponse=" + errorResponse
+        return "RequestErrorResponse{"
+            + "errors=" + errors
             + '}';
     }
 }

@@ -15,35 +15,56 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.exception;
+package org.sourcelab.activecampaign.client.response.error;
 
-import org.sourcelab.activecampaign.client.response.error.RequestErrorResponse;
-import org.sourcelab.http.rest.exceptions.InvalidRequestException;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Thrown when the API returns an error.
+ * Represents an Api error.
  */
-public class ApiErrorException extends InvalidRequestException {
-    private final RequestErrorResponse errorResponse;
+public class Error {
+    private final String title;
+    private final String detail;
+    private final String code;
+    private final Source source;
 
-    public ApiErrorException(final String message, final int errorCode) {
-        super("", errorCode);
-        throw new RuntimeException("Not implemented");
+    @JsonCreator
+    public Error(
+        @JsonProperty("title") final String title,
+        @JsonProperty("detail") final String detail,
+        @JsonProperty("code") final String code,
+        @JsonProperty("source") final Source source
+    ) {
+        this.title = title;
+        this.detail = detail;
+        this.code = code;
+        this.source = source;
     }
 
-    public ApiErrorException(final RequestErrorResponse requestErrorResponse) {
-        super(requestErrorResponse.toString(), 422);
-        this.errorResponse = requestErrorResponse;
+    public String getTitle() {
+        return title;
     }
 
-    public RequestErrorResponse getErrorResponse() {
-        return errorResponse;
+    public String getDetail() {
+        return detail;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public Source getSource() {
+        return source;
     }
 
     @Override
     public String toString() {
-        return "ApiErrorException{"
-            + "errorResponse=" + errorResponse
+        return "Error{"
+            + "title='" + title + '\''
+            + ", detail='" + detail + '\''
+            + ", code='" + code + '\''
+            + ", source=" + source
             + '}';
     }
 }

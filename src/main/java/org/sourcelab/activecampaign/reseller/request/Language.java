@@ -15,35 +15,32 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.exception;
-
-import org.sourcelab.activecampaign.client.response.error.RequestErrorResponse;
-import org.sourcelab.http.rest.exceptions.InvalidRequestException;
+package org.sourcelab.activecampaign.reseller.request;
 
 /**
- * Thrown when the API returns an error.
+ * Language values.
  */
-public class ApiErrorException extends InvalidRequestException {
-    private final RequestErrorResponse errorResponse;
+public enum Language {
+    ENGLISH("english"),
+    SPANISH("spanish"),
+    PORTUGUESE("portuguese"),
+    PORTUGUESE_BRAZIL("portuguese - brazil"),
+    FINNISH("finnish"),
+    GERMAN("german"),
+    FRENCH("french"),
+    DANISH("danish"),
+    DUTCH("dutch"),
+    CHINESE("chinese"),
+    ITALIAN("italian"),
+    TURKISH("turkish");
 
-    public ApiErrorException(final String message, final int errorCode) {
-        super("", errorCode);
-        throw new RuntimeException("Not implemented");
+    private final String parametervalue;
+
+    Language(final String parameterValue) {
+        this.parametervalue = parameterValue;
     }
 
-    public ApiErrorException(final RequestErrorResponse requestErrorResponse) {
-        super(requestErrorResponse.toString(), 422);
-        this.errorResponse = requestErrorResponse;
-    }
-
-    public RequestErrorResponse getErrorResponse() {
-        return errorResponse;
-    }
-
-    @Override
-    public String toString() {
-        return "ApiErrorException{"
-            + "errorResponse=" + errorResponse
-            + '}';
+    public String getParametervalue() {
+        return parametervalue;
     }
 }

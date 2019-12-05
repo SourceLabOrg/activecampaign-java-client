@@ -15,35 +15,39 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.exception;
+package org.sourcelab.activecampaign.reseller.request;
 
-import org.sourcelab.activecampaign.client.response.error.RequestErrorResponse;
-import org.sourcelab.http.rest.exceptions.InvalidRequestException;
+import org.sourcelab.activecampaign.client.response.JacksonFactory;
+import org.sourcelab.activecampaign.reseller.response.AccountListResponse;
+
+import java.io.IOException;
 
 /**
- * Thrown when the API returns an error.
+ * Account list api request.
  */
-public class ApiErrorException extends InvalidRequestException {
-    private final RequestErrorResponse errorResponse;
+public class AccountListRequest extends AbstractRequest<AccountListRequest, AccountListResponse> {
 
-    public ApiErrorException(final String message, final int errorCode) {
-        super("", errorCode);
-        throw new RuntimeException("Not implemented");
-    }
-
-    public ApiErrorException(final RequestErrorResponse requestErrorResponse) {
-        super(requestErrorResponse.toString(), 422);
-        this.errorResponse = requestErrorResponse;
-    }
-
-    public RequestErrorResponse getErrorResponse() {
-        return errorResponse;
+    /**
+     * Constructor.
+     */
+    public AccountListRequest() {
+        super("account_list");
     }
 
     @Override
-    public String toString() {
-        return "ApiErrorException{"
-            + "errorResponse=" + errorResponse
-            + '}';
+    public AccountListResponse parseResponse(final String response) throws IOException {
+        return JacksonFactory.newInstance().readValue(response, AccountListResponse.class);
+    }
+
+    public AccountListRequest withSearch(final String search) {
+        return setParam("search", search);
+    }
+
+    public AccountListRequest withPlanFilter(final String planfilter) {
+        return setParam("planfilter", planfilter);
+    }
+
+    public AccountListRequest withPage(final int page) {
+        return setParam("page", Integer.toString(page));
     }
 }

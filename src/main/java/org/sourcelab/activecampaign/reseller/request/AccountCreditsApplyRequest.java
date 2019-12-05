@@ -15,35 +15,39 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.exception;
 
-import org.sourcelab.activecampaign.client.response.error.RequestErrorResponse;
-import org.sourcelab.http.rest.exceptions.InvalidRequestException;
+package org.sourcelab.activecampaign.reseller.request;
+
+import org.sourcelab.activecampaign.client.response.JacksonFactory;
+import org.sourcelab.activecampaign.reseller.response.AccountCreditsApplyResponse;
+import org.sourcelab.http.rest.request.RequestMethod;
+
+import java.io.IOException;
 
 /**
- * Thrown when the API returns an error.
+ * Add reseller's email sending credits to an account.
  */
-public class ApiErrorException extends InvalidRequestException {
-    private final RequestErrorResponse errorResponse;
+public class AccountCreditsApplyRequest extends AbstractRequest<AccountCreditsApplyRequest, AccountCreditsApplyResponse> {
 
-    public ApiErrorException(final String message, final int errorCode) {
-        super("", errorCode);
-        throw new RuntimeException("Not implemented");
+    public AccountCreditsApplyRequest() {
+        super("account_credits_apply");
     }
 
-    public ApiErrorException(final RequestErrorResponse requestErrorResponse) {
-        super(requestErrorResponse.toString(), 422);
-        this.errorResponse = requestErrorResponse;
+    public AccountCreditsApplyRequest withAccount(final String account) {
+        return setParam("account", account);
     }
 
-    public RequestErrorResponse getErrorResponse() {
-        return errorResponse;
+    public AccountCreditsApplyRequest withCredits(final int numberOfCredits) {
+        return setParam("credits", Integer.toString(numberOfCredits));
     }
 
     @Override
-    public String toString() {
-        return "ApiErrorException{"
-            + "errorResponse=" + errorResponse
-            + '}';
+    public AccountCreditsApplyResponse parseResponse(final String response) throws IOException {
+        return JacksonFactory.newInstance().readValue(response, AccountCreditsApplyResponse.class);
+    }
+
+    @Override
+    public RequestMethod getRequestMethod() {
+        return RequestMethod.GET;
     }
 }

@@ -15,35 +15,26 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.exception;
+package org.sourcelab.activecampaign.client.request;
 
-import org.sourcelab.activecampaign.client.response.error.RequestErrorResponse;
-import org.sourcelab.http.rest.exceptions.InvalidRequestException;
+import org.apache.commons.codec.Charsets;
+import org.apache.commons.io.IOUtils;
+
+import java.io.IOException;
+import java.net.URL;
 
 /**
- * Thrown when the API returns an error.
+ *
  */
-public class ApiErrorException extends InvalidRequestException {
-    private final RequestErrorResponse errorResponse;
-
-    public ApiErrorException(final String message, final int errorCode) {
-        super("", errorCode);
-        throw new RuntimeException("Not implemented");
-    }
-
-    public ApiErrorException(final RequestErrorResponse requestErrorResponse) {
-        super(requestErrorResponse.toString(), 422);
-        this.errorResponse = requestErrorResponse;
-    }
-
-    public RequestErrorResponse getErrorResponse() {
-        return errorResponse;
-    }
-
-    @Override
-    public String toString() {
-        return "ApiErrorException{"
-            + "errorResponse=" + errorResponse
-            + '}';
+public class AbstractRequestTest {
+    /**
+     * Utility method to help load mock responses from resources.
+     * @param fileName file name to load from resources
+     * @return The contents of the file, as a UTF-8 string.
+     * @throws IOException on error reading from resource file.
+     */
+    public String readFile(final String fileName) throws IOException {
+        final URL inputFile = getClass().getClassLoader().getResource("mockResponses/" + fileName);
+        return IOUtils.toString(inputFile, Charsets.UTF_8);
     }
 }

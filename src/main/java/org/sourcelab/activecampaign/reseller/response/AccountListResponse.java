@@ -15,35 +15,42 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.exception;
+package org.sourcelab.activecampaign.reseller.response;
 
-import org.sourcelab.activecampaign.client.response.error.RequestErrorResponse;
-import org.sourcelab.http.rest.exceptions.InvalidRequestException;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
 
 /**
- * Thrown when the API returns an error.
+ * Reseller account list response.
  */
-public class ApiErrorException extends InvalidRequestException {
-    private final RequestErrorResponse errorResponse;
+public class AccountListResponse extends AbstractResponse {
+    private final List<Account> accounts;
 
-    public ApiErrorException(final String message, final int errorCode) {
-        super("", errorCode);
-        throw new RuntimeException("Not implemented");
+    /**
+     * Constructor.
+     */
+    @JsonCreator
+    public AccountListResponse(
+        @JsonProperty("accounts") final List<Account> accounts,
+        @JsonProperty("result_code") final int resultCode,
+        @JsonProperty("result_message") final String resultMessage
+    ) {
+        super(resultCode, resultMessage);
+        this.accounts = accounts;
     }
 
-    public ApiErrorException(final RequestErrorResponse requestErrorResponse) {
-        super(requestErrorResponse.toString(), 422);
-        this.errorResponse = requestErrorResponse;
-    }
-
-    public RequestErrorResponse getErrorResponse() {
-        return errorResponse;
+    public List<Account> getAccounts() {
+        return accounts;
     }
 
     @Override
     public String toString() {
-        return "ApiErrorException{"
-            + "errorResponse=" + errorResponse
+        return "AccountListResponse{"
+            + "accounts=" + accounts
+            + ", resultCode=" + resultCode
+            + ", resultMessage='" + resultMessage + '\''
             + '}';
     }
 }

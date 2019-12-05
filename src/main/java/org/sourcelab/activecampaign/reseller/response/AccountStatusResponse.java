@@ -15,35 +15,44 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.exception;
+package org.sourcelab.activecampaign.reseller.response;
 
-import org.sourcelab.activecampaign.client.response.error.RequestErrorResponse;
-import org.sourcelab.http.rest.exceptions.InvalidRequestException;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Thrown when the API returns an error.
+ * Account Status Response.
  */
-public class ApiErrorException extends InvalidRequestException {
-    private final RequestErrorResponse errorResponse;
+public class AccountStatusResponse extends AbstractResponse {
+    private final AccountStatus accountStatus;
+    private final String accountStatusString;
 
-    public ApiErrorException(final String message, final int errorCode) {
-        super("", errorCode);
-        throw new RuntimeException("Not implemented");
+    @JsonCreator
+    public AccountStatusResponse(
+        @JsonProperty("status") final String accountStatusString,
+        @JsonProperty("result_code") final int resultCode,
+        @JsonProperty("result_message") final String resultMessage
+    ) {
+        super(resultCode, resultMessage);
+        this.accountStatus = AccountStatus.valueOf(accountStatusString.toUpperCase());
+        this.accountStatusString = accountStatusString;
     }
 
-    public ApiErrorException(final RequestErrorResponse requestErrorResponse) {
-        super(requestErrorResponse.toString(), 422);
-        this.errorResponse = requestErrorResponse;
+    public AccountStatus getAccountStatus() {
+        return accountStatus;
     }
 
-    public RequestErrorResponse getErrorResponse() {
-        return errorResponse;
+    public String getAccountStatusString() {
+        return accountStatusString;
     }
 
     @Override
     public String toString() {
-        return "ApiErrorException{"
-            + "errorResponse=" + errorResponse
+        return "AccountStatusResponse{"
+            + "accountStatus=" + accountStatus
+            + ", accountStatusString='" + accountStatusString + '\''
+            + ", resultCode=" + resultCode
+            + ", resultMessage='" + resultMessage + '\''
             + '}';
     }
 }

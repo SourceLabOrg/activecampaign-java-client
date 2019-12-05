@@ -15,35 +15,52 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.exception;
+package org.sourcelab.activecampaign.client.response.account;
 
-import org.sourcelab.activecampaign.client.response.error.RequestErrorResponse;
-import org.sourcelab.http.rest.exceptions.InvalidRequestException;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.sourcelab.activecampaign.client.response.Meta;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * Thrown when the API returns an error.
+ * Represents the response returned from the accounts list api resource.
  */
-public class ApiErrorException extends InvalidRequestException {
-    private final RequestErrorResponse errorResponse;
+public class AccountListResponse {
+    private final List<Account> accounts;
+    private final Meta meta;
 
-    public ApiErrorException(final String message, final int errorCode) {
-        super("", errorCode);
-        throw new RuntimeException("Not implemented");
+    /**
+     * Constructor.
+     */
+    @JsonCreator
+    public AccountListResponse(
+        @JsonProperty("accounts") final List<Account> accounts,
+        @JsonProperty("meta") final Meta meta
+    ) {
+        if (accounts == null) {
+            this.accounts = Collections.emptyList();
+        } else {
+            this.accounts = Collections.unmodifiableList(new ArrayList<>(accounts));
+        }
+        this.meta = meta;
     }
 
-    public ApiErrorException(final RequestErrorResponse requestErrorResponse) {
-        super(requestErrorResponse.toString(), 422);
-        this.errorResponse = requestErrorResponse;
+    public List<Account> getAccounts() {
+        return accounts;
     }
 
-    public RequestErrorResponse getErrorResponse() {
-        return errorResponse;
+    public Meta getMeta() {
+        return meta;
     }
 
     @Override
     public String toString() {
-        return "ApiErrorException{"
-            + "errorResponse=" + errorResponse
+        return "AccountListResponse{"
+            + "accounts=" + accounts
+            + ", meta=" + meta
             + '}';
     }
 }

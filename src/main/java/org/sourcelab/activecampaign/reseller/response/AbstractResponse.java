@@ -15,35 +15,32 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.exception;
-
-import org.sourcelab.activecampaign.client.response.error.RequestErrorResponse;
-import org.sourcelab.http.rest.exceptions.InvalidRequestException;
+package org.sourcelab.activecampaign.reseller.response;
 
 /**
- * Thrown when the API returns an error.
+ * Abstract implementation of standard response.
  */
-public class ApiErrorException extends InvalidRequestException {
-    private final RequestErrorResponse errorResponse;
+abstract class AbstractResponse implements StandardResponse {
+    final int resultCode;
+    final String resultMessage;
 
-    public ApiErrorException(final String message, final int errorCode) {
-        super("", errorCode);
-        throw new RuntimeException("Not implemented");
-    }
-
-    public ApiErrorException(final RequestErrorResponse requestErrorResponse) {
-        super(requestErrorResponse.toString(), 422);
-        this.errorResponse = requestErrorResponse;
-    }
-
-    public RequestErrorResponse getErrorResponse() {
-        return errorResponse;
+    AbstractResponse(final int resultCode, final String resultMessage) {
+        this.resultCode = resultCode;
+        this.resultMessage = resultMessage;
     }
 
     @Override
-    public String toString() {
-        return "ApiErrorException{"
-            + "errorResponse=" + errorResponse
-            + '}';
+    public int getResultCode() {
+        return resultCode;
+    }
+
+    @Override
+    public String getResultMessage() {
+        return resultMessage;
+    }
+
+    @Override
+    public boolean isSuccess() {
+        return getResultCode() == 1;
     }
 }

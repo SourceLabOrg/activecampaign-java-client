@@ -15,35 +15,51 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.exception;
+package org.sourcelab.activecampaign.reseller.request;
 
-import org.sourcelab.activecampaign.client.response.error.RequestErrorResponse;
-import org.sourcelab.http.rest.exceptions.InvalidRequestException;
+import org.sourcelab.http.rest.request.Request;
+import org.sourcelab.http.rest.request.RequestMethod;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Thrown when the API returns an error.
+ * Abstract Reseller Account Request.
+ *
+ * @param <Self> reference to parent class.
+ * @param <T> return type from parsed response.
  */
-public class ApiErrorException extends InvalidRequestException {
-    private final RequestErrorResponse errorResponse;
+public abstract class AbstractRequest<Self, T> implements Request<T> {
+    // Param holder
+    private final Map<String, String> params = new HashMap<>();
 
-    public ApiErrorException(final String message, final int errorCode) {
-        super("", errorCode);
-        throw new RuntimeException("Not implemented");
-    }
-
-    public ApiErrorException(final RequestErrorResponse requestErrorResponse) {
-        super(requestErrorResponse.toString(), 422);
-        this.errorResponse = requestErrorResponse;
-    }
-
-    public RequestErrorResponse getErrorResponse() {
-        return errorResponse;
+    protected AbstractRequest(final String apiAction) {
+        setParam("api_action", apiAction);
     }
 
     @Override
-    public String toString() {
-        return "ApiErrorException{"
-            + "errorResponse=" + errorResponse
-            + '}';
+    public String getApiEndpoint() {
+        return "";
+    }
+
+    @Override
+    public RequestMethod getRequestMethod() {
+        return RequestMethod.GET;
+    }
+
+    @Override
+    public Object getRequestBody() {
+        // return copy of our parameters
+        return new HashMap<>(params);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected Self setParam(final String name, String value) {
+        if (value == null) {
+            params.remove(name);
+        } else {
+            params.put(name, value);
+        }
+        return (Self) this;
     }
 }

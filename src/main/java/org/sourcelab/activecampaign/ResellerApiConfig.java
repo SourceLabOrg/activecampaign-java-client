@@ -15,35 +15,40 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.exception;
+package org.sourcelab.activecampaign;
 
-import org.sourcelab.activecampaign.client.response.error.RequestErrorResponse;
-import org.sourcelab.http.rest.exceptions.InvalidRequestException;
+import org.sourcelab.http.rest.configuration.BasicConfiguration;
+import org.sourcelab.http.rest.interceptor.RequestContext;
+import org.sourcelab.http.rest.interceptor.RequestInterceptor;
+
+import java.util.Map;
 
 /**
- * Thrown when the API returns an error.
+ * Reseller API configuration.
  */
-public class ApiErrorException extends InvalidRequestException {
-    private final RequestErrorResponse errorResponse;
+public class ResellerApiConfig extends BasicConfiguration<ApiConfig> {
 
-    public ApiErrorException(final String message, final int errorCode) {
-        super("", errorCode);
-        throw new RuntimeException("Not implemented");
+    private static final String DEFAULT_API_HOST = "https://www.activecampaign.com/api.php";
+    private final String apiToken;
+
+    /**
+     * Constructor.
+     * @param apiToken ActiveCampaign Reseller API token.
+     */
+    public ResellerApiConfig(final String apiToken) {
+        super(DEFAULT_API_HOST);
+        this.apiToken = apiToken;
+
+        useRequestInteceptor(new RequestInterceptor() {
+            @Override
+            public void modifyRequestParameters(final Map<String, String> requestParameters, final RequestContext requestContext) {
+                requestParameters.put("api_key", apiToken);
+                requestParameters.put("api_output", "json");
+            }
+        });
     }
 
-    public ApiErrorException(final RequestErrorResponse requestErrorResponse) {
-        super(requestErrorResponse.toString(), 422);
-        this.errorResponse = requestErrorResponse;
-    }
-
-    public RequestErrorResponse getErrorResponse() {
-        return errorResponse;
-    }
-
-    @Override
-    public String toString() {
-        return "ApiErrorException{"
-            + "errorResponse=" + errorResponse
-            + '}';
+    public String getApiToken() {
+        return apiToken;
     }
 }

@@ -18,49 +18,46 @@
 package org.sourcelab.activecampaign.reseller.request;
 
 import org.sourcelab.activecampaign.client.response.JacksonFactory;
-import org.sourcelab.activecampaign.reseller.response.AccountScoringResponse;
-import org.sourcelab.http.rest.request.RequestMethod;
+import org.sourcelab.activecampaign.reseller.response.AccountCancelResponse;
 
 import java.io.IOException;
 
 /**
- * Account Scoring Request.
+ * Allows you to cancel an active account.
  */
-public class AccountScoringRequest extends AbstractRequest<AccountScoringRequest, AccountScoringResponse> {
+public class AccountCancelRequest  extends AbstractRequest<AccountCancelRequest, AccountCancelResponse> {
 
-    public AccountScoringRequest() {
-        super("account_scoring");
+    public AccountCancelRequest() {
+        super("account_cancel");
     }
 
-    public AccountScoringRequest withAccount(final String account) {
+    public AccountCancelRequest withAccount(final String account) {
         return setParam("account", account);
     }
 
-    public AccountScoringRequest withActive() {
-        return withStatus(RequestedStatus.ACTIVE);
+    public AccountCancelRequest withReason(final String reason) {
+        return setParam("reason", reason);
     }
 
-    public AccountScoringRequest withInactive() {
-        return withStatus(RequestedStatus.INACTIVE);
-    }
-
-    public AccountScoringRequest withStatus(final RequestedStatus status) {
-        if (RequestedStatus.INACTIVE.equals(status)) {
-            // 0 == inactive
-            return setParam("status", "0");
+    public AccountCancelRequest withRetainData(final boolean shouldRetainData) {
+        if (shouldRetainData) {
+            return setParam("retaindata", "1");
         } else {
-            // 1 == active
-            return setParam("status", "1");
+            return setParam("retaindata", "0");
         }
     }
 
-    @Override
-    public AccountScoringResponse parseResponse(final String response) throws IOException {
-        return JacksonFactory.newInstance().readValue(response, AccountScoringResponse.class);
+    public AccountCancelRequest withRetainingData() {
+        return withRetainData(true);
+    }
+
+    public AccountCancelRequest withDeletingData() {
+        return withRetainData(false);
     }
 
     @Override
-    public RequestMethod getRequestMethod() {
-        return RequestMethod.POST;
+    public AccountCancelResponse parseResponse(final String response) throws IOException {
+        return JacksonFactory.newInstance().readValue(response, AccountCancelResponse.class);
     }
 }
+

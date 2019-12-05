@@ -17,12 +17,24 @@
 
 package org.sourcelab.activecampaign;
 
+import org.sourcelab.activecampaign.reseller.request.AccountAddRequest;
+import org.sourcelab.activecampaign.reseller.request.AccountCancelRequest;
+import org.sourcelab.activecampaign.reseller.request.AccountConversationsRequest;
+import org.sourcelab.activecampaign.reseller.request.AccountCreditsApplyRequest;
+import org.sourcelab.activecampaign.reseller.request.AccountEditRequest;
+import org.sourcelab.activecampaign.reseller.request.AccountEmailTestCreditsApplyRequest;
 import org.sourcelab.activecampaign.reseller.request.AccountListRequest;
 import org.sourcelab.activecampaign.reseller.request.AccountNameCheckRequest;
 import org.sourcelab.activecampaign.reseller.request.AccountPlansRequest;
 import org.sourcelab.activecampaign.reseller.request.AccountScoringRequest;
 import org.sourcelab.activecampaign.reseller.request.AccountStatusRequest;
 import org.sourcelab.activecampaign.reseller.request.AccountStatusSetRequest;
+import org.sourcelab.activecampaign.reseller.response.AccountAddResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountCancelResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountConversationsResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountCreditsApplyResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountEditResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountEmailTestCreditsApplyResponse;
 import org.sourcelab.activecampaign.reseller.response.AccountListResponse;
 import org.sourcelab.activecampaign.reseller.response.AccountNameCheckResponse;
 import org.sourcelab.activecampaign.reseller.response.AccountPlansResponse;
@@ -73,6 +85,66 @@ public class ActiveCampaignResellerClient extends AbstractClient {
     }
 
     public AccountScoringResponse accountScoring(final AccountScoringRequest request) {
+        return submitRequest(request);
+    }
+
+    /**
+     * Turn Conversations product on or off and updates purchased seats count.
+     *
+     * @param request defines the request.
+     * @return AccountConversations Response.
+     */
+    public AccountConversationsResponse accountConversations(final AccountConversationsRequest request) {
+        return submitRequest(request);
+    }
+
+    /**
+     * Allows you to cancel an active account.
+     *
+     * @param request defines the request.
+     * @return Account Cancel Response.
+     */
+    public AccountCancelResponse accountCancel(final AccountCancelRequest request) {
+        return submitRequest(request);
+    }
+
+    /**
+     * Add reseller's email sending credits to an account.
+     *
+     * @param request defines the request.
+     * @return Account Credits Apply Response.
+     */
+    public AccountCreditsApplyResponse accountCreditsApply(final AccountCreditsApplyRequest request) {
+        return submitRequest(request);
+    }
+
+    /**
+     * Add reseller's email test sending credits to an account.
+     *
+     * @param request defines the request.
+     * @return Account EmailTest Credits Response.
+     */
+    public AccountEmailTestCreditsApplyResponse accountEmailTestCreditsApply(final AccountEmailTestCreditsApplyRequest request) {
+        return submitRequest(request);
+    }
+
+    /**
+     * Edit existing account settings and plan, just like you would on the Manage Accounts page of the reseller panel.
+     *
+     * @param request defines the request.
+     * @return AccountEdit Response.
+     */
+    public AccountEditResponse accountEdit(final AccountEditRequest request) {
+        return submitRequest(request);
+    }
+
+    /**
+     * Add a new account, just like you would on the Manage Accounts page of the reseller panel.
+     *
+     * @param request defines the request.
+     * @return AccountAdd Response.
+     */
+    public AccountAddResponse accountAdd(final AccountAddRequest request) {
         return submitRequest(request);
     }
 }

@@ -21,12 +21,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Account Status Set response.
+ * AccountConversations Response.
  */
-public class AccountStatusSetResponse extends AbstractResponse {
+public class AccountConversationsResponse extends AbstractResponse {
 
     @JsonCreator
-    public AccountStatusSetResponse(
+    public AccountConversationsResponse(
         @JsonProperty("result_code") final int resultCode,
         @JsonProperty("result_message") final String resultMessage
     ) {
@@ -35,7 +35,7 @@ public class AccountStatusSetResponse extends AbstractResponse {
 
     @Override
     public String toString() {
-        return "AccountStatusSetResponse{"
+        return "AccountConversationsResponse{"
             + "resultCode=" + resultCode
             + ", resultMessage='" + resultMessage + '\''
             + '}';

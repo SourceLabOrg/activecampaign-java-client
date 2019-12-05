@@ -17,33 +17,20 @@
 
 package org.sourcelab.activecampaign.reseller.response;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Account Scoring Response.
  */
-public class AccountScoringResponse {
-    private final int resultCode;
-    private final String resultMessage;
+public class AccountScoringResponse extends AbstractResponse {
 
+    @JsonCreator
     public AccountScoringResponse(
         @JsonProperty("result_code") final int resultCode,
         @JsonProperty("result_message") final String resultMessage
     ) {
-        this.resultCode = resultCode;
-        this.resultMessage = resultMessage;
-    }
-
-    public int getResultCode() {
-        return resultCode;
-    }
-
-    public String getResultMessage() {
-        return resultMessage;
-    }
-
-    public boolean isSuccess() {
-        return getResultCode() == 1;
+        super(resultCode, resultMessage);
     }
 
     @Override

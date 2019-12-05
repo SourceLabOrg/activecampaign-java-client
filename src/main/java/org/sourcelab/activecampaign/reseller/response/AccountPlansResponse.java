@@ -28,13 +28,16 @@ import java.util.Map;
 /**
  * Account Plans Response.
  */
-public class AccountPlansResponse {
+public class AccountPlansResponse extends AbstractResponse {
     private final Map<String, AccountPlan> plans;
 
     @JsonCreator
     public AccountPlansResponse(
-        @JsonProperty("plans") final Map<String, AccountPlan> plans
+        @JsonProperty("plans") final Map<String, AccountPlan> plans,
+        @JsonProperty("result_code") final int resultCode,
+        @JsonProperty("result_message") final String resultMessage
     ) {
+        super(resultCode, resultMessage);
         this.plans = plans;
     }
 
@@ -59,6 +62,8 @@ public class AccountPlansResponse {
     public String toString() {
         return "AccountPlansResponse{"
             + "plans=" + plans
+            + ", resultCode=" + resultCode
+            + ", resultMessage='" + resultMessage + '\''
             + '}';
     }
 }

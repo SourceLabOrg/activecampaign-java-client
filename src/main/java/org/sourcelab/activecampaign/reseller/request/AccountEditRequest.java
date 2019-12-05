@@ -18,45 +18,39 @@
 package org.sourcelab.activecampaign.reseller.request;
 
 import org.sourcelab.activecampaign.client.response.JacksonFactory;
-import org.sourcelab.activecampaign.reseller.response.AccountScoringResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountEditResponse;
 import org.sourcelab.http.rest.request.RequestMethod;
 
 import java.io.IOException;
 
 /**
- * Account Scoring Request.
+ * Edit existing account settings and plan, just like you would on the Manage Accounts page of the reseller panel.
  */
-public class AccountScoringRequest extends AbstractRequest<AccountScoringRequest, AccountScoringResponse> {
+public class AccountEditRequest extends AbstractRequest<AccountEditRequest, AccountEditResponse> {
 
-    public AccountScoringRequest() {
-        super("account_scoring");
+    public AccountEditRequest() {
+        super("account_edit");
     }
 
-    public AccountScoringRequest withAccount(final String account) {
+    public AccountEditRequest withAccount(final String account) {
         return setParam("account", account);
     }
 
-    public AccountScoringRequest withActive() {
-        return withStatus(RequestedStatus.ACTIVE);
+    public AccountEditRequest withCname(final String cname) {
+        return setParam("cname", cname);
     }
 
-    public AccountScoringRequest withInactive() {
-        return withStatus(RequestedStatus.INACTIVE);
+    public AccountEditRequest withNotification(final String emailAddress) {
+        return setParam("notification", emailAddress);
     }
 
-    public AccountScoringRequest withStatus(final RequestedStatus status) {
-        if (RequestedStatus.INACTIVE.equals(status)) {
-            // 0 == inactive
-            return setParam("status", "0");
-        } else {
-            // 1 == active
-            return setParam("status", "1");
-        }
+    public AccountEditRequest withPlan(final int planId) {
+        return setParam("plan", Integer.toString(planId));
     }
 
     @Override
-    public AccountScoringResponse parseResponse(final String response) throws IOException {
-        return JacksonFactory.newInstance().readValue(response, AccountScoringResponse.class);
+    public AccountEditResponse parseResponse(final String response) throws IOException {
+        return JacksonFactory.newInstance().readValue(response, AccountEditResponse.class);
     }
 
     @Override
@@ -64,3 +58,4 @@ public class AccountScoringRequest extends AbstractRequest<AccountScoringRequest
         return RequestMethod.POST;
     }
 }
+

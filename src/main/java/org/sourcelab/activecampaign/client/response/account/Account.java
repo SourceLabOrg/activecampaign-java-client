@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 
 import java.time.ZonedDateTime;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -39,7 +40,7 @@ public class Account {
     private final long dealCount;
 
     // Related links
-    private Map<String, String> links;
+    private final Map<String, String> links;
 
     // Timestamps
     private final ZonedDateTime createdTimestamp;
@@ -175,7 +176,7 @@ public class Account {
         }
 
         public Account build() {
-            return new Account(id, name, accountUrl, contactCount, dealCount, createdTimestamp, updatedTimestamp, Collections.EMPTY_MAP);
+            return new Account(id, name, accountUrl, contactCount, dealCount, createdTimestamp, updatedTimestamp, new HashMap<>());
         }
     }
 }

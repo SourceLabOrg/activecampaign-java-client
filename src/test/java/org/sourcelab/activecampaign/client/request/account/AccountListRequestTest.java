@@ -25,7 +25,8 @@ import org.sourcelab.activecampaign.client.response.account.AccountListResponse;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class AccountListRequestTest extends AbstractRequestTest {
 

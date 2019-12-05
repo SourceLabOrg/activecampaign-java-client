@@ -17,27 +17,27 @@
 
 package org.sourcelab.activecampaign.reseller.response;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
- * Account Status Set response.
+ * Interface for standard responses.
  */
-public class AccountStatusSetResponse extends AbstractResponse {
+public interface StandardResponse {
 
-    @JsonCreator
-    public AccountStatusSetResponse(
-        @JsonProperty("result_code") final int resultCode,
-        @JsonProperty("result_message") final String resultMessage
-    ) {
-        super(resultCode, resultMessage);
-    }
+    /**
+     * Whether or not the response was successful.
+     * Examples: 1 = yes, 0 = no
+     */
+    int getResultCode();
 
-    @Override
-    public String toString() {
-        return "AccountStatusSetResponse{"
-            + "resultCode=" + resultCode
-            + ", resultMessage='" + resultMessage + '\''
-            + '}';
-    }
+    /**
+     * A custom message that appears explaining what happened.
+     * Example: Account updated.
+     */
+    String getResultMessage();
+
+    /**
+     * Was the request a success.
+     * @return true if yes, false if not.
+     */
+    boolean isSuccess();
+
 }

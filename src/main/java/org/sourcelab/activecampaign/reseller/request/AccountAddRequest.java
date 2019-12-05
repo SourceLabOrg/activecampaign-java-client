@@ -18,45 +18,51 @@
 package org.sourcelab.activecampaign.reseller.request;
 
 import org.sourcelab.activecampaign.client.response.JacksonFactory;
-import org.sourcelab.activecampaign.reseller.response.AccountScoringResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountAddResponse;
 import org.sourcelab.http.rest.request.RequestMethod;
 
 import java.io.IOException;
 
 /**
- * Account Scoring Request.
+ * Add a new account, just like you would on the Manage Accounts page of the reseller panel.
  */
-public class AccountScoringRequest extends AbstractRequest<AccountScoringRequest, AccountScoringResponse> {
+public class AccountAddRequest extends AbstractRequest<AccountAddRequest, AccountAddResponse> {
 
-    public AccountScoringRequest() {
-        super("account_scoring");
+    public AccountAddRequest() {
+        super("account_add");
     }
 
-    public AccountScoringRequest withAccount(final String account) {
+    public AccountAddRequest withAccount(final String account) {
         return setParam("account", account);
     }
 
-    public AccountScoringRequest withActive() {
-        return withStatus(RequestedStatus.ACTIVE);
+    public AccountAddRequest withCname(final String cname) {
+        return setParam("cname", cname);
     }
 
-    public AccountScoringRequest withInactive() {
-        return withStatus(RequestedStatus.INACTIVE);
+    public AccountAddRequest withNotification(final String emailAddress) {
+        return setParam("notification", emailAddress);
     }
 
-    public AccountScoringRequest withStatus(final RequestedStatus status) {
-        if (RequestedStatus.INACTIVE.equals(status)) {
-            // 0 == inactive
-            return setParam("status", "0");
-        } else {
-            // 1 == active
-            return setParam("status", "1");
-        }
+    public AccountAddRequest withPlan(final int planId) {
+        return setParam("plan", Integer.toString(planId));
+    }
+
+    public AccountAddRequest withLanguage(final Language language) {
+        return setParam("language", language.getParametervalue());
+    }
+
+    public AccountAddRequest withTimezone(final String timezone) {
+        return setParam("timezone", timezone);
+    }
+
+    public AccountAddRequest withSnapshot(final int snapshotId) {
+        return setParam("snapshot", Integer.toString(snapshotId));
     }
 
     @Override
-    public AccountScoringResponse parseResponse(final String response) throws IOException {
-        return JacksonFactory.newInstance().readValue(response, AccountScoringResponse.class);
+    public AccountAddResponse parseResponse(final String response) throws IOException {
+        return JacksonFactory.newInstance().readValue(response, AccountAddResponse.class);
     }
 
     @Override
@@ -64,3 +70,4 @@ public class AccountScoringRequest extends AbstractRequest<AccountScoringRequest
         return RequestMethod.POST;
     }
 }
+

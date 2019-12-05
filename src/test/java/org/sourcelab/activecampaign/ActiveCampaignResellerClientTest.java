@@ -23,10 +23,23 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sourcelab.activecampaign.reseller.request.AccountAddRequest;
+import org.sourcelab.activecampaign.reseller.request.AccountCancelRequest;
+import org.sourcelab.activecampaign.reseller.request.AccountConversationsRequest;
+import org.sourcelab.activecampaign.reseller.request.AccountCreditsApplyRequest;
+import org.sourcelab.activecampaign.reseller.request.AccountEditRequest;
+import org.sourcelab.activecampaign.reseller.request.AccountEmailTestCreditsApplyRequest;
 import org.sourcelab.activecampaign.reseller.request.AccountListRequest;
 import org.sourcelab.activecampaign.reseller.request.AccountPlansRequest;
 import org.sourcelab.activecampaign.reseller.request.AccountScoringRequest;
 import org.sourcelab.activecampaign.reseller.request.AccountStatusSetRequest;
+import org.sourcelab.activecampaign.reseller.request.Language;
+import org.sourcelab.activecampaign.reseller.response.AccountAddResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountCancelResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountConversationsResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountCreditsApplyResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountEditResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountEmailTestCreditsApplyResponse;
 import org.sourcelab.activecampaign.reseller.response.AccountListResponse;
 import org.sourcelab.activecampaign.reseller.response.AccountNameCheckResponse;
 import org.sourcelab.activecampaign.reseller.response.AccountPlansResponse;
@@ -38,7 +51,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Integration test of Reseller API.
@@ -151,6 +165,92 @@ class ActiveCampaignResellerClientTest {
             .withActive();
 
         final AccountScoringResponse result = apiClient.accountScoring(request);
+        logger.info("Resp: {}", result);
+    }
+
+    /**
+     * Test enabling/disabling account conversations feature.
+     */
+    @Test
+    void testAccountConversations() {
+        final AccountConversationsRequest request = new AccountConversationsRequest()
+            .withAccount("bob")
+            .withStatusTrial()
+            .withSeats(1);
+
+        final AccountConversationsResponse result = apiClient.accountConversations(request);
+        logger.info("Resp: {}", result);
+    }
+
+    /**
+     * Test enabling/disabling account conversations feature.
+     */
+    @Test
+    void testAccountCancel() {
+        final AccountCancelRequest request = new AccountCancelRequest()
+            .withAccount("bob")
+            .withRetainingData()
+            .withReason("Cancelled");
+
+        final AccountCancelResponse result = apiClient.accountCancel(request);
+        logger.info("Resp: {}", result);
+    }
+
+    /**
+     * Test enabling/disabling account conversations feature.
+     */
+    @Test
+    void testAccountCreditsApply() {
+        final AccountCreditsApplyRequest request = new AccountCreditsApplyRequest()
+            .withAccount("bob")
+            .withCredits(1);
+
+        final AccountCreditsApplyResponse result = apiClient.accountCreditsApply(request);
+        logger.info("Resp: {}", result);
+    }
+
+    /**
+     * Test enabling/disabling account conversations feature.
+     */
+    @Test
+    void testAccountEmailTestCreditsApply() {
+        final AccountEmailTestCreditsApplyRequest request = new AccountEmailTestCreditsApplyRequest()
+            .withAccount("bob")
+            .withCredits(1);
+
+        final AccountEmailTestCreditsApplyResponse result = apiClient.accountEmailTestCreditsApply(request);
+        logger.info("Resp: {}", result);
+    }
+
+    /**
+     * Test enabling/disabling account conversations feature.
+     */
+    @Test
+    void testAccountEdit() {
+        final AccountEditRequest request = new AccountEditRequest()
+            .withAccount("bob")
+            .withCname("mycname")
+            .withNotification("test@example.com")
+            .withPlan(-1);
+
+        final AccountEditResponse result = apiClient.accountEdit(request);
+        logger.info("Resp: {}", result);
+    }
+
+    /**
+     * Test enabling/disabling account conversations feature.
+     */
+    @Test
+    void testAccountAdd() {
+        final AccountAddRequest request = new AccountAddRequest()
+            .withAccount("bob")
+            .withCname("mycname")
+            .withPlan(123)
+            .withNotification("test@example.com")
+            .withLanguage(Language.ENGLISH)
+            .withTimezone("America/Chicago");
+
+        final AccountAddResponse result = apiClient.accountAdd(request);
         logger.info("Resp: {}", result);
     }
 }

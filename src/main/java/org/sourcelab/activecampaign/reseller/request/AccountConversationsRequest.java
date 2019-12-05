@@ -18,45 +18,47 @@
 package org.sourcelab.activecampaign.reseller.request;
 
 import org.sourcelab.activecampaign.client.response.JacksonFactory;
-import org.sourcelab.activecampaign.reseller.response.AccountScoringResponse;
+import org.sourcelab.activecampaign.reseller.response.AccountConversationsResponse;
 import org.sourcelab.http.rest.request.RequestMethod;
 
 import java.io.IOException;
 
 /**
- * Account Scoring Request.
+ * Turn Conversations product on or off and updates purchased seats count.
  */
-public class AccountScoringRequest extends AbstractRequest<AccountScoringRequest, AccountScoringResponse> {
+public class AccountConversationsRequest extends AbstractRequest<AccountConversationsRequest, AccountConversationsResponse> {
 
-    public AccountScoringRequest() {
-        super("account_scoring");
+    public AccountConversationsRequest() {
+        super("account_conversations");
     }
 
-    public AccountScoringRequest withAccount(final String account) {
+    public AccountConversationsRequest withAccount(final String account) {
         return setParam("account", account);
     }
 
-    public AccountScoringRequest withActive() {
-        return withStatus(RequestedStatus.ACTIVE);
+    public AccountConversationsRequest withStatus(AccountConversationStatus requestedStatus) {
+        return setParam("status", requestedStatus.name().toLowerCase());
     }
 
-    public AccountScoringRequest withInactive() {
-        return withStatus(RequestedStatus.INACTIVE);
+    public AccountConversationsRequest withStatusPaid() {
+        return withStatus(AccountConversationStatus.PAID);
     }
 
-    public AccountScoringRequest withStatus(final RequestedStatus status) {
-        if (RequestedStatus.INACTIVE.equals(status)) {
-            // 0 == inactive
-            return setParam("status", "0");
-        } else {
-            // 1 == active
-            return setParam("status", "1");
-        }
+    public AccountConversationsRequest withStatusCancel() {
+        return withStatus(AccountConversationStatus.CANCEL);
+    }
+
+    public AccountConversationsRequest withStatusTrial() {
+        return withStatus(AccountConversationStatus.TRIAL);
+    }
+
+    public AccountConversationsRequest withSeats(final int numberOfSeats) {
+        return setParam("seats", Integer.toString(numberOfSeats));
     }
 
     @Override
-    public AccountScoringResponse parseResponse(final String response) throws IOException {
-        return JacksonFactory.newInstance().readValue(response, AccountScoringResponse.class);
+    public AccountConversationsResponse parseResponse(final String response) throws IOException {
+        return JacksonFactory.newInstance().readValue(response, AccountConversationsResponse.class);
     }
 
     @Override

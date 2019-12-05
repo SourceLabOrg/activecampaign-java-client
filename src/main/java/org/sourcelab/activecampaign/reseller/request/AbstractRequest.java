@@ -17,8 +17,6 @@
 
 package org.sourcelab.activecampaign.reseller.request;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sourcelab.http.rest.request.Request;
 import org.sourcelab.http.rest.request.RequestMethod;
 
@@ -32,8 +30,6 @@ import java.util.Map;
  * @param <T> return type from parsed response.
  */
 public abstract class AbstractRequest<Self, T> implements Request<T> {
-    private static final Logger logger = LoggerFactory.getLogger(AbstractRequest.class);
-
     // Param holder
     private final Map<String, String> params = new HashMap<>();
 

@@ -25,14 +25,19 @@ import java.util.List;
 /**
  * Reseller account list response.
  */
-public class AccountListResponse {
+public class AccountListResponse extends AbstractResponse {
     private final List<Account> accounts;
 
     /**
      * Constructor.
      */
     @JsonCreator
-    public AccountListResponse(@JsonProperty("accounts") final List<Account> accounts) {
+    public AccountListResponse(
+        @JsonProperty("accounts") final List<Account> accounts,
+        @JsonProperty("result_code") final int resultCode,
+        @JsonProperty("result_message") final String resultMessage
+    ) {
+        super(resultCode, resultMessage);
         this.accounts = accounts;
     }
 
@@ -44,6 +49,8 @@ public class AccountListResponse {
     public String toString() {
         return "AccountListResponse{"
             + "accounts=" + accounts
+            + ", resultCode=" + resultCode
+            + ", resultMessage='" + resultMessage + '\''
             + '}';
     }
 }

@@ -21,22 +21,46 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Account Status Set response.
+ * Account Add response.
  */
-public class AccountStatusSetResponse extends AbstractResponse {
+public class AccountAddResponse extends AbstractResponse {
+    private final String account;
+    private final String username;
+    private final String password;
 
     @JsonCreator
-    public AccountStatusSetResponse(
+    public AccountAddResponse(
+        @JsonProperty("account") final String account,
+        @JsonProperty("username") final String username,
+        @JsonProperty("password") final String password,
         @JsonProperty("result_code") final int resultCode,
         @JsonProperty("result_message") final String resultMessage
     ) {
         super(resultCode, resultMessage);
+        this.account = account;
+        this.username = username;
+        this.password = password;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     @Override
     public String toString() {
-        return "AccountStatusSetResponse{"
-            + "resultCode=" + resultCode
+        return "AccountAddResponse{"
+            + "account='" + account + '\''
+            + ", username='" + username + '\''
+            + ", password='" + password + '\''
+            + ", resultCode=" + resultCode
             + ", resultMessage='" + resultMessage + '\''
             + '}';
     }

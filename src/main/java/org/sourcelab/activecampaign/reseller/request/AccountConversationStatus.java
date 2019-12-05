@@ -15,29 +15,16 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.reseller.response;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+package org.sourcelab.activecampaign.reseller.request;
 
 /**
- * Account Status Set response.
+ * Status to for Conversations.
  */
-public class AccountStatusSetResponse extends AbstractResponse {
-
-    @JsonCreator
-    public AccountStatusSetResponse(
-        @JsonProperty("result_code") final int resultCode,
-        @JsonProperty("result_message") final String resultMessage
-    ) {
-        super(resultCode, resultMessage);
-    }
-
-    @Override
-    public String toString() {
-        return "AccountStatusSetResponse{"
-            + "resultCode=" + resultCode
-            + ", resultMessage='" + resultMessage + '\''
-            + '}';
-    }
+public enum AccountConversationStatus {
+    // Upgrade to paid
+    PAID,
+    // Starting a trial
+    TRIAL,
+    // Cancelling paid subscription
+    CANCEL;
 }

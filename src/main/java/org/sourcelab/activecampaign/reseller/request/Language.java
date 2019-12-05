@@ -15,29 +15,32 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.reseller.response;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+package org.sourcelab.activecampaign.reseller.request;
 
 /**
- * Account Status Set response.
+ * Language values.
  */
-public class AccountStatusSetResponse extends AbstractResponse {
+public enum Language {
+    ENGLISH("english"),
+    SPANISH("spanish"),
+    PORTUGUESE("portuguese"),
+    PORTUGUESE_BRAZIL("portuguese - brazil"),
+    FINNISH("finnish"),
+    GERMAN("german"),
+    FRENCH("french"),
+    DANISH("danish"),
+    DUTCH("dutch"),
+    CHINESE("chinese"),
+    ITALIAN("italian"),
+    TURKISH("turkish");
 
-    @JsonCreator
-    public AccountStatusSetResponse(
-        @JsonProperty("result_code") final int resultCode,
-        @JsonProperty("result_message") final String resultMessage
-    ) {
-        super(resultCode, resultMessage);
+    private final String parametervalue;
+
+    Language(final String parameterValue) {
+        this.parametervalue = parameterValue;
     }
 
-    @Override
-    public String toString() {
-        return "AccountStatusSetResponse{"
-            + "resultCode=" + resultCode
-            + ", resultMessage='" + resultMessage + '\''
-            + '}';
+    public String getParametervalue() {
+        return parametervalue;
     }
 }

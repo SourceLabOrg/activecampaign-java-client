@@ -15,29 +15,39 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.reseller.response;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+package org.sourcelab.activecampaign.reseller.request;
+
+import org.sourcelab.activecampaign.client.response.JacksonFactory;
+import org.sourcelab.activecampaign.reseller.response.AccountCreditsApplyResponse;
+import org.sourcelab.http.rest.request.RequestMethod;
+
+import java.io.IOException;
 
 /**
- * Account Status Set response.
+ * Add reseller's email sending credits to an account.
  */
-public class AccountStatusSetResponse extends AbstractResponse {
+public class AccountCreditsApplyRequest extends AbstractRequest<AccountCreditsApplyRequest, AccountCreditsApplyResponse> {
 
-    @JsonCreator
-    public AccountStatusSetResponse(
-        @JsonProperty("result_code") final int resultCode,
-        @JsonProperty("result_message") final String resultMessage
-    ) {
-        super(resultCode, resultMessage);
+    public AccountCreditsApplyRequest() {
+        super("account_credits_apply");
+    }
+
+    public AccountCreditsApplyRequest withAccount(final String account) {
+        return setParam("account", account);
+    }
+
+    public AccountCreditsApplyRequest withCredits(final int numberOfCredits) {
+        return setParam("credits", Integer.toString(numberOfCredits));
     }
 
     @Override
-    public String toString() {
-        return "AccountStatusSetResponse{"
-            + "resultCode=" + resultCode
-            + ", resultMessage='" + resultMessage + '\''
-            + '}';
+    public AccountCreditsApplyResponse parseResponse(final String response) throws IOException {
+        return JacksonFactory.newInstance().readValue(response, AccountCreditsApplyResponse.class);
+    }
+
+    @Override
+    public RequestMethod getRequestMethod() {
+        return RequestMethod.GET;
     }
 }

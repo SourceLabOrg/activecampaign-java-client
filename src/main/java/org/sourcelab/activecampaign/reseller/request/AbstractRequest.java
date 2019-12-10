@@ -19,6 +19,8 @@ package org.sourcelab.activecampaign.reseller.request;
 
 import org.sourcelab.http.rest.request.Request;
 import org.sourcelab.http.rest.request.RequestMethod;
+import org.sourcelab.http.rest.request.body.RequestBodyContent;
+import org.sourcelab.http.rest.request.body.UrlEncodedFormBodyContent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,9 +50,13 @@ public abstract class AbstractRequest<Self, T> implements Request<T> {
     }
 
     @Override
-    public Object getRequestBody() {
+    public RequestBodyContent getRequestBody() {
         // return copy of our parameters
-        return new HashMap<>(params);
+        final UrlEncodedFormBodyContent requestBody = new UrlEncodedFormBodyContent();
+
+        params.forEach(requestBody::addParameter);
+
+        return requestBody;
     }
 
     @SuppressWarnings("unchecked")

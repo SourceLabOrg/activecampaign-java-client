@@ -21,6 +21,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sourcelab.http.rest.request.Request;
 import org.sourcelab.http.rest.request.RequestMethod;
+import org.sourcelab.http.rest.request.body.NoBodyContent;
+import org.sourcelab.http.rest.request.body.RequestBodyContent;
 
 import java.io.IOException;
 
@@ -41,8 +43,8 @@ public class LoginRequest implements Request<Boolean> {
     }
 
     @Override
-    public Object getRequestBody() {
-        return "";
+    public RequestBodyContent getRequestBody() {
+        return new NoBodyContent();
     }
 
     @Override

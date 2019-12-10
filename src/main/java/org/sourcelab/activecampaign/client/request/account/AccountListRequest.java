@@ -23,6 +23,8 @@ import org.sourcelab.activecampaign.client.response.JacksonFactory;
 import org.sourcelab.activecampaign.client.response.account.AccountListResponse;
 import org.sourcelab.http.rest.request.Request;
 import org.sourcelab.http.rest.request.RequestMethod;
+import org.sourcelab.http.rest.request.body.NoBodyContent;
+import org.sourcelab.http.rest.request.body.RequestBodyContent;
 
 import java.io.IOException;
 
@@ -43,8 +45,8 @@ public class AccountListRequest implements Request<AccountListResponse> {
     }
 
     @Override
-    public Object getRequestBody() {
-        return "";
+    public RequestBodyContent getRequestBody() {
+        return new NoBodyContent();
     }
 
     @Override

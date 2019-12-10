@@ -23,6 +23,8 @@ import org.sourcelab.activecampaign.client.response.account.Account;
 import org.sourcelab.activecampaign.client.response.account.AccountResponse;
 import org.sourcelab.http.rest.request.Request;
 import org.sourcelab.http.rest.request.RequestMethod;
+import org.sourcelab.http.rest.request.body.RequestBodyContent;
+import org.sourcelab.http.rest.request.body.StringBodyContent;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -57,9 +59,11 @@ public class AccountUpdateRequest implements Request<AccountResponse> {
     }
 
     @Override
-    public Object getRequestBody() {
+    public RequestBodyContent getRequestBody() {
         try {
-            return JacksonFactory.newInstance().writeValueAsString(account);
+            return new StringBodyContent(
+                JacksonFactory.newInstance().writeValueAsString(account)
+            );
         } catch (final JsonProcessingException exception) {
             throw new RuntimeException(exception);
         }

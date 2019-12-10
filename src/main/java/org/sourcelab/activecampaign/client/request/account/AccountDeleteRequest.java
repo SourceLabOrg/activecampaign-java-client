@@ -20,6 +20,8 @@ package org.sourcelab.activecampaign.client.request.account;
 import org.sourcelab.activecampaign.client.response.account.Account;
 import org.sourcelab.http.rest.request.Request;
 import org.sourcelab.http.rest.request.RequestMethod;
+import org.sourcelab.http.rest.request.body.NoBodyContent;
+import org.sourcelab.http.rest.request.body.RequestBodyContent;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -54,8 +56,8 @@ public class AccountDeleteRequest implements Request<Boolean> {
     }
 
     @Override
-    public Object getRequestBody() {
-        return "";
+    public RequestBodyContent getRequestBody() {
+        return new NoBodyContent();
     }
 
     @Override

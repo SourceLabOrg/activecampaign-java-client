@@ -20,8 +20,9 @@ package org.sourcelab.activecampaign;
 import org.sourcelab.http.rest.configuration.BasicConfiguration;
 import org.sourcelab.http.rest.interceptor.RequestContext;
 import org.sourcelab.http.rest.interceptor.RequestInterceptor;
+import org.sourcelab.http.rest.request.RequestParameter;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * Reseller API configuration.
@@ -41,14 +42,15 @@ public class ResellerApiConfig extends BasicConfiguration<ApiConfig> {
 
         useRequestInteceptor(new RequestInterceptor() {
             @Override
-            public void modifyRequestParameters(final Map<String, String> requestParameters, final RequestContext requestContext) {
-                requestParameters.put("api_key", apiToken);
-                requestParameters.put("api_output", "json");
+            public List<RequestParameter> modifyRequestParameters(
+                final List<RequestParameter> requestParameters,
+                final RequestContext requestContext
+            ) {
+                requestParameters.add(new RequestParameter("api_key", apiToken));
+                requestParameters.add(new RequestParameter("api_output", "json"));
+
+                return requestParameters;
             }
         });
-    }
-
-    public String getApiToken() {
-        return apiToken;
     }
 }

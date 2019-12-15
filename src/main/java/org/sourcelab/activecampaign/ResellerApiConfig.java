@@ -30,15 +30,22 @@ import java.util.List;
 public class ResellerApiConfig extends BasicConfiguration<ApiConfig> {
 
     private static final String DEFAULT_API_HOST = "https://www.activecampaign.com/api.php";
-    private final String apiToken;
 
     /**
      * Constructor.
      * @param apiToken ActiveCampaign Reseller API token.
      */
     public ResellerApiConfig(final String apiToken) {
-        super(DEFAULT_API_HOST);
-        this.apiToken = apiToken;
+        this(apiToken, DEFAULT_API_HOST);
+    }
+
+    /**
+     * Constructor allowing to override the API hostname.
+     * @param apiToken ActiveCampaign Reseller API token.
+     * @param apiHost Hostname to make API requests against overriding the default value.
+     */
+    public ResellerApiConfig(final String apiToken, final String apiHost) {
+        super(apiHost);
 
         useRequestInteceptor(new RequestInterceptor() {
             @Override

@@ -17,8 +17,6 @@
 
 package org.sourcelab.activecampaign.client.request;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sourcelab.http.rest.request.Request;
 import org.sourcelab.http.rest.request.RequestMethod;
 import org.sourcelab.http.rest.request.body.NoBodyContent;
@@ -30,7 +28,6 @@ import java.io.IOException;
  * Simple request to validate that the credentials configured are valid.
  */
 public class LoginRequest implements Request<Boolean> {
-    private static final Logger logger = LoggerFactory.getLogger(LoginRequest.class);
 
     @Override
     public String getApiEndpoint() {

@@ -17,8 +17,6 @@
 
 package org.sourcelab.activecampaign.client.request.account;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sourcelab.activecampaign.client.response.JacksonFactory;
 import org.sourcelab.activecampaign.client.response.account.AccountResponse;
 import org.sourcelab.http.rest.request.Request;
@@ -32,7 +30,6 @@ import java.io.IOException;
  * Represents an account retrieve request.
  */
 public class AccountRetrieveRequest implements Request<AccountResponse> {
-    private static final Logger logger = LoggerFactory.getLogger(AccountRetrieveRequest.class);
 
     private final long id;
 

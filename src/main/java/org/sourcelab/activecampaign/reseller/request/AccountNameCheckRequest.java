@@ -17,8 +17,6 @@
 
 package org.sourcelab.activecampaign.reseller.request;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sourcelab.activecampaign.client.response.JacksonFactory;
 import org.sourcelab.activecampaign.reseller.response.AccountNameCheckResponse;
 
@@ -28,8 +26,6 @@ import java.io.IOException;
  * Reseller Account Name Check Request.
  */
 public class AccountNameCheckRequest extends AbstractRequest<AccountNameCheckRequest, AccountNameCheckResponse> {
-    private static final Logger logger = LoggerFactory.getLogger(AccountNameCheckRequest.class);
-
     public AccountNameCheckRequest(final String account) {
         super("account_name_check");
         setParam("account", account);

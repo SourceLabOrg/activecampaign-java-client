@@ -22,6 +22,8 @@ import org.sourcelab.activecampaign.reseller.response.AccountAddResponse;
 import org.sourcelab.http.rest.request.RequestMethod;
 
 import java.io.IOException;
+import java.util.Objects;
+import java.util.TimeZone;
 
 /**
  * Add a new account, just like you would on the Manage Accounts page of the reseller panel.
@@ -54,6 +56,11 @@ public class AccountAddRequest extends AbstractRequest<AccountAddRequest, Accoun
 
     public AccountAddRequest withTimezone(final String timezone) {
         return setParam("timezone", timezone);
+    }
+
+    public AccountAddRequest withTimezone(final TimeZone timezone) {
+        Objects.requireNonNull(timezone);
+        return withTimezone(timezone.getID());
     }
 
     public AccountAddRequest withSnapshot(final int snapshotId) {

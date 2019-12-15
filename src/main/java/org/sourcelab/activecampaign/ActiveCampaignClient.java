@@ -17,8 +17,6 @@
 
 package org.sourcelab.activecampaign;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sourcelab.activecampaign.client.request.LoginRequest;
 import org.sourcelab.activecampaign.client.request.account.AccountCreateRequest;
 import org.sourcelab.activecampaign.client.request.account.AccountDeleteRequest;
@@ -34,7 +32,6 @@ import org.sourcelab.activecampaign.exception.InvalidCredentialsException;
  * ActiveCampaign API client.
  */
 public class ActiveCampaignClient extends AbstractClient {
-    private static final Logger logger = LoggerFactory.getLogger(ActiveCampaignClient.class);
 
     /**
      * Constructor.

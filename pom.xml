@@ -62,6 +62,7 @@
 
         <!-- Log4J Version -->
         <log4j2.version>2.12.1</log4j2.version>
+        <slf4j.version>1.7.29</slf4j.version>
 
         <!-- test toggling -->
         <skipTests>false</skipTests>
@@ -74,10 +75,11 @@
 
     <!-- Project Dependencies -->
     <dependencies>
+        <!-- Abstracted Http Client Library -->
         <dependency>
             <groupId>org.sourcelab.http</groupId>
-            <artifactId>HttpClientWrapper</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
+            <artifactId>http-client-wrapper</artifactId>
+            <version>0.2.0</version>
         </dependency>
 
         <!-- For parsing JSON responses to POJOs -->
@@ -97,21 +99,11 @@
             <version>${jackson.version}</version>
         </dependency>
 
-        <!-- Logging -->
+        <!-- Logging Interface -->
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>${log4j2.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>${log4j2.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>${log4j2.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
 
         <!-- Testing Tools -->
@@ -149,6 +141,26 @@
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
             <version>9.4.20.v20190813</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Logging in tests -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j2.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j2.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j2.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

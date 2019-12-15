@@ -27,6 +27,7 @@ import org.sourcelab.activecampaign.client.response.account.Account;
 import org.sourcelab.activecampaign.client.response.account.AccountListResponse;
 import org.sourcelab.activecampaign.client.response.account.AccountResponse;
 import org.sourcelab.activecampaign.exception.InvalidCredentialsException;
+import org.sourcelab.http.rest.RestResponse;
 
 /**
  * ActiveCampaign API client.
@@ -101,5 +102,10 @@ public class ActiveCampaignClient extends AbstractClient {
      */
     public boolean accountDelete(final Account account) {
         return submitRequest(new AccountDeleteRequest(account));
+    }
+
+    @Override
+    protected void validateResponseForInvalidCredentials(final RestResponse restResponse) {
+        // NOOP for now...
     }
 }

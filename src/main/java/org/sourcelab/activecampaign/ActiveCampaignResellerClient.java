@@ -17,6 +17,9 @@
 
 package org.sourcelab.activecampaign;
 
+import org.sourcelab.activecampaign.reseller.BaseResponse;
+import org.sourcelab.activecampaign.client.response.JacksonFactory;
+import org.sourcelab.activecampaign.exception.InvalidCredentialsException;
 import org.sourcelab.activecampaign.reseller.request.AccountAddRequest;
 import org.sourcelab.activecampaign.reseller.request.AccountCancelRequest;
 import org.sourcelab.activecampaign.reseller.request.AccountConversationsRequest;
@@ -41,6 +44,9 @@ import org.sourcelab.activecampaign.reseller.response.AccountPlansResponse;
 import org.sourcelab.activecampaign.reseller.response.AccountScoringResponse;
 import org.sourcelab.activecampaign.reseller.response.AccountStatusResponse;
 import org.sourcelab.activecampaign.reseller.response.AccountStatusSetResponse;
+import org.sourcelab.http.rest.RestResponse;
+
+import java.io.IOException;
 
 /**
  * Active Campaign Reseller API client.
@@ -146,5 +152,25 @@ public class ActiveCampaignResellerClient extends AbstractClient {
      */
     public AccountAddResponse accountAdd(final AccountAddRequest request) {
         return submitRequest(request);
+    }
+
+    @Override
+    protected void validateResponseForInvalidCredentials(final RestResponse restResponse) {
+        final String responseStr = restResponse.getResponseStr();
+
+        // Poor man's attempt to parse for invalid api token response.
+        try {
+            final BaseResponse baseResponse = JacksonFactory.newInstance().readValue(responseStr, BaseResponse.class);
+            final Integer code = baseResponse.getResultCode();
+            final String msg = baseResponse.getResultMessage();
+            if ((code != null && code.equals(0))
+                && (msg != null && msg.startsWith("Authentication for API key '") && msg.endsWith("' failed."))
+            ) {
+                // Invalid credentials
+                throw new InvalidCredentialsException("The ActiveCampaign API token and/or account name is not valid.", 0);
+            }
+        } catch (final IOException exception) {
+            throw new RuntimeException(exception.getMessage(), exception);
+        }
     }
 }

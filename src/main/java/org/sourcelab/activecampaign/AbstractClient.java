@@ -37,7 +37,7 @@ import java.io.IOException;
 /**
  * Abstract client class.
  */
-class AbstractClient implements AutoCloseable {
+abstract class AbstractClient implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(AbstractClient.class);
 
     /**
@@ -73,6 +73,9 @@ class AbstractClient implements AutoCloseable {
         // If we have a valid response
         logger.debug("Response: {}", restResponse);
 
+        // Check for invalid credential responses.
+        validateResponseForInvalidCredentials(restResponse);
+
         // Check for invalid http status codes
         if (responseCode >= 200 && responseCode < 300) {
             // These response codes have no values
@@ -81,6 +84,7 @@ class AbstractClient implements AutoCloseable {
                 responseStr = "";
             }
 
+            // Then parse real response.
             try {
                 return request.parseResponse(responseStr);
             } catch (final IOException exception) {
@@ -139,4 +143,11 @@ class AbstractClient implements AutoCloseable {
             restClient.close();
         }
     }
+
+    /**
+     * Custom validations to check for invalid credentials.
+     * @param restResponse the resulting API response.
+     * @throws InvalidCredentialsException if the credentials are invalid.
+     */
+    abstract void validateResponseForInvalidCredentials(final RestResponse restResponse) throws InvalidCredentialsException;
 }

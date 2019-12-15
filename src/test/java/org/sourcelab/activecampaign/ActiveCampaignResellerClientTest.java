@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sourcelab.activecampaign.exception.InvalidCredentialsException;
 import org.sourcelab.activecampaign.reseller.request.AccountAddRequest;
 import org.sourcelab.activecampaign.reseller.request.AccountCancelRequest;
 import org.sourcelab.activecampaign.reseller.request.AccountConversationsRequest;
@@ -52,6 +53,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -101,6 +103,19 @@ class ActiveCampaignResellerClientTest {
     }
 
     /**
+     * Test what happens if you use an invalid api token.
+     */
+    @Test
+    void testInvalidApiToken() {
+        final ActiveCampaignResellerClient badClient = new ActiveCampaignResellerClient(
+            new ResellerApiConfig("not-a-real-token")
+        );
+
+        // This should throw an invalid credentials exception.
+        assertThrows(InvalidCredentialsException.class, () -> badClient.accountNameCheck("Test123"));
+    }
+
+    /**
      * Test listing accounts.
      */
     @Test
@@ -118,7 +133,7 @@ class ActiveCampaignResellerClientTest {
         assertTrue(responseTaken.isTaken());
         assertFalse(responseTaken.isAvailable());
 
-        final AccountNameCheckResponse responseAvailable = apiClient.accountNameCheck("bo123123213b");
+        final AccountNameCheckResponse responseAvailable = apiClient.accountNameCheck("bo123123213b" + System.currentTimeMillis());
         assertFalse(responseAvailable.isTaken());
         assertTrue(responseAvailable.isAvailable());
     }

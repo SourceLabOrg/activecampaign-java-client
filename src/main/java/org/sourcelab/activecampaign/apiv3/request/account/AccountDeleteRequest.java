@@ -15,39 +15,53 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.reseller.request;
+package org.sourcelab.activecampaign.apiv3.request.account;
 
-import org.sourcelab.activecampaign.JacksonFactory;
-import org.sourcelab.activecampaign.reseller.response.AccountListResponse;
+import org.sourcelab.activecampaign.apiv3.response.account.Account;
+import org.sourcelab.http.rest.request.Request;
+import org.sourcelab.http.rest.request.RequestMethod;
+import org.sourcelab.http.rest.request.body.NoBodyContent;
+import org.sourcelab.http.rest.request.body.RequestBodyContent;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
- * Account list api request.
+ * Represents an account delete request.
  */
-public class AccountListRequest extends AbstractRequest<AccountListRequest, AccountListResponse> {
+public class AccountDeleteRequest implements Request<Boolean> {
 
-    /**
-     * Constructor.
-     */
-    public AccountListRequest() {
-        super("account_list");
+    private final long id;
+
+    public AccountDeleteRequest(final long id) {
+        this.id = id;
+    }
+
+    public AccountDeleteRequest(final Account account) {
+        Objects.requireNonNull(account);
+        if (account.getId() == null) {
+            throw new IllegalArgumentException("Account must have Id property set");
+        }
+        this.id = account.getId();
     }
 
     @Override
-    public AccountListResponse parseResponse(final String response) throws IOException {
-        return JacksonFactory.newInstance().readValue(response, AccountListResponse.class);
+    public String getApiEndpoint() {
+        return "api/3/accounts/" + id;
     }
 
-    public AccountListRequest withSearch(final String search) {
-        return setParam("search", search);
+    @Override
+    public RequestMethod getRequestMethod() {
+        return RequestMethod.DELETE;
     }
 
-    public AccountListRequest withPlanFilter(final String planfilter) {
-        return setParam("planfilter", planfilter);
+    @Override
+    public RequestBodyContent getRequestBody() {
+        return new NoBodyContent();
     }
 
-    public AccountListRequest withPage(final int page) {
-        return setParam("page", Integer.toString(page));
+    @Override
+    public Boolean parseResponse(final String response) throws IOException {
+        return true;
     }
 }

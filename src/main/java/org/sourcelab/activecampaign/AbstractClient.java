@@ -19,8 +19,7 @@ package org.sourcelab.activecampaign;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sourcelab.activecampaign.client.response.JacksonFactory;
-import org.sourcelab.activecampaign.client.response.error.RequestErrorResponse;
+import org.sourcelab.activecampaign.apiv3.response.error.RequestErrorResponse;
 import org.sourcelab.activecampaign.exception.ApiErrorException;
 import org.sourcelab.activecampaign.exception.InvalidCredentialsException;
 import org.sourcelab.http.rest.HttpClientRestClient;
@@ -37,7 +36,7 @@ import java.io.IOException;
 /**
  * Abstract client class.
  */
-abstract class AbstractClient implements AutoCloseable {
+public abstract class AbstractClient implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(AbstractClient.class);
 
     /**
@@ -64,7 +63,7 @@ abstract class AbstractClient implements AutoCloseable {
         this.restClient = new HttpClientRestClient();
     }
 
-    <T> T submitRequest(final Request<T> request) {
+    protected <T> T submitRequest(final Request<T> request) {
         // Submit request
         final RestResponse restResponse = getRestClient().submitRequest(request);
         final int responseCode = restResponse.getHttpCode();
@@ -149,5 +148,5 @@ abstract class AbstractClient implements AutoCloseable {
      * @param restResponse the resulting API response.
      * @throws InvalidCredentialsException if the credentials are invalid.
      */
-    abstract void validateResponseForInvalidCredentials(final RestResponse restResponse) throws InvalidCredentialsException;
+    protected abstract void validateResponseForInvalidCredentials(final RestResponse restResponse) throws InvalidCredentialsException;
 }

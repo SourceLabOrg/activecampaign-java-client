@@ -15,39 +15,39 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.reseller.request;
+package org.sourcelab.activecampaign.apiv3.request;
 
-import org.sourcelab.activecampaign.JacksonFactory;
-import org.sourcelab.activecampaign.reseller.response.AccountListResponse;
+import org.sourcelab.http.rest.request.Request;
+import org.sourcelab.http.rest.request.RequestMethod;
+import org.sourcelab.http.rest.request.body.NoBodyContent;
+import org.sourcelab.http.rest.request.body.RequestBodyContent;
 
 import java.io.IOException;
 
 /**
- * Account list api request.
+ * Simple request to validate that the credentials configured are valid.
  */
-public class AccountListRequest extends AbstractRequest<AccountListRequest, AccountListResponse> {
+public class LoginRequest implements Request<Boolean> {
 
-    /**
-     * Constructor.
-     */
-    public AccountListRequest() {
-        super("account_list");
+    @Override
+    public String getApiEndpoint() {
+        return "/";
     }
 
     @Override
-    public AccountListResponse parseResponse(final String response) throws IOException {
-        return JacksonFactory.newInstance().readValue(response, AccountListResponse.class);
+    public RequestMethod getRequestMethod() {
+        return RequestMethod.GET;
     }
 
-    public AccountListRequest withSearch(final String search) {
-        return setParam("search", search);
+    @Override
+    public RequestBodyContent getRequestBody() {
+        return new NoBodyContent();
     }
 
-    public AccountListRequest withPlanFilter(final String planfilter) {
-        return setParam("planfilter", planfilter);
-    }
-
-    public AccountListRequest withPage(final int page) {
-        return setParam("page", Integer.toString(page));
+    @Override
+    public Boolean parseResponse(final String response) throws IOException {
+        // If the request is valid, we just return true.
+        // If the request is invalid, we'll throw an exception.
+        return true;
     }
 }

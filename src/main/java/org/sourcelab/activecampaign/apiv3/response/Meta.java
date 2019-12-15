@@ -15,39 +15,32 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.reseller.request;
+package org.sourcelab.activecampaign.apiv3.response;
 
-import org.sourcelab.activecampaign.JacksonFactory;
-import org.sourcelab.activecampaign.reseller.response.AccountListResponse;
-
-import java.io.IOException;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Account list api request.
+ * Meta response object.
  */
-public class AccountListRequest extends AbstractRequest<AccountListRequest, AccountListResponse> {
+public class Meta {
+    private final int total;
 
-    /**
-     * Constructor.
-     */
-    public AccountListRequest() {
-        super("account_list");
+    @JsonCreator
+    public Meta(
+        @JsonProperty("total") final int total
+    ) {
+        this.total = total;
+    }
+
+    public int getTotal() {
+        return total;
     }
 
     @Override
-    public AccountListResponse parseResponse(final String response) throws IOException {
-        return JacksonFactory.newInstance().readValue(response, AccountListResponse.class);
-    }
-
-    public AccountListRequest withSearch(final String search) {
-        return setParam("search", search);
-    }
-
-    public AccountListRequest withPlanFilter(final String planfilter) {
-        return setParam("planfilter", planfilter);
-    }
-
-    public AccountListRequest withPage(final int page) {
-        return setParam("page", Integer.toString(page));
+    public String toString() {
+        return "Meta{"
+            + "total=" + total
+            + '}';
     }
 }

@@ -15,39 +15,26 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.reseller.request;
+package org.sourcelab.activecampaign.apiv3.request;
 
-import org.sourcelab.activecampaign.JacksonFactory;
-import org.sourcelab.activecampaign.reseller.response.AccountListResponse;
+import org.apache.commons.codec.Charsets;
+import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
+import java.net.URL;
 
 /**
- * Account list api request.
+ *
  */
-public class AccountListRequest extends AbstractRequest<AccountListRequest, AccountListResponse> {
-
+public class AbstractRequestTest {
     /**
-     * Constructor.
+     * Utility method to help load mock responses from resources.
+     * @param fileName file name to load from resources
+     * @return The contents of the file, as a UTF-8 string.
+     * @throws IOException on error reading from resource file.
      */
-    public AccountListRequest() {
-        super("account_list");
-    }
-
-    @Override
-    public AccountListResponse parseResponse(final String response) throws IOException {
-        return JacksonFactory.newInstance().readValue(response, AccountListResponse.class);
-    }
-
-    public AccountListRequest withSearch(final String search) {
-        return setParam("search", search);
-    }
-
-    public AccountListRequest withPlanFilter(final String planfilter) {
-        return setParam("planfilter", planfilter);
-    }
-
-    public AccountListRequest withPage(final int page) {
-        return setParam("page", Integer.toString(page));
+    public String readFile(final String fileName) throws IOException {
+        final URL inputFile = getClass().getClassLoader().getResource("mockResponses/" + fileName);
+        return IOUtils.toString(inputFile, Charsets.UTF_8);
     }
 }

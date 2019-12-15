@@ -15,39 +15,36 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.reseller.request;
+package org.sourcelab.activecampaign.apiv3;
 
-import org.sourcelab.activecampaign.JacksonFactory;
-import org.sourcelab.activecampaign.reseller.response.AccountListResponse;
-
-import java.io.IOException;
+import org.sourcelab.http.rest.configuration.BasicConfiguration;
 
 /**
- * Account list api request.
+ * ActiveCampaign API Configuration class.
  */
-public class AccountListRequest extends AbstractRequest<AccountListRequest, AccountListResponse> {
+public class ApiConfig extends BasicConfiguration<ApiConfig> {
+
+    private static String API_HOST_TEMPLATE = "https://%s.api-us1.com/";
 
     /**
      * Constructor.
+     * @param accountName ActiveCampaign account name.
+     * @param apiToken ActiveCampaign API token.
      */
-    public AccountListRequest() {
-        super("account_list");
+    public ApiConfig(final String accountName, final String apiToken) {
+        super(
+            String.format(API_HOST_TEMPLATE, accountName)
+        );
+        withApiToken(apiToken);
     }
 
-    @Override
-    public AccountListResponse parseResponse(final String response) throws IOException {
-        return JacksonFactory.newInstance().readValue(response, AccountListResponse.class);
-    }
-
-    public AccountListRequest withSearch(final String search) {
-        return setParam("search", search);
-    }
-
-    public AccountListRequest withPlanFilter(final String planfilter) {
-        return setParam("planfilter", planfilter);
-    }
-
-    public AccountListRequest withPage(final int page) {
-        return setParam("page", Integer.toString(page));
+    /**
+     * Configure ActiveCampaign API Token.
+     * @param apiToken api token.
+     * @return Configuration instance.
+     */
+    private ApiConfig withApiToken(final String apiToken) {
+        withRequestHeader("Api-Token", apiToken);
+        return this;
     }
 }

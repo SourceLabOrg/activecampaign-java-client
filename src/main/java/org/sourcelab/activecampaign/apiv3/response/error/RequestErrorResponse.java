@@ -15,39 +15,35 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.reseller.request;
+package org.sourcelab.activecampaign.apiv3.response.error;
 
-import org.sourcelab.activecampaign.JacksonFactory;
-import org.sourcelab.activecampaign.reseller.response.AccountListResponse;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * Account list api request.
+ * Represents an error returned from the API.
  */
-public class AccountListRequest extends AbstractRequest<AccountListRequest, AccountListResponse> {
+public class RequestErrorResponse {
+    private final List<Error> errors;
 
-    /**
-     * Constructor.
-     */
-    public AccountListRequest() {
-        super("account_list");
+    @JsonCreator
+    public RequestErrorResponse(
+        @JsonProperty("errors") final List<Error> errors) {
+        this.errors = Collections.unmodifiableList(new ArrayList<>(errors));
+    }
+
+    public List<Error> getErrors() {
+        return errors;
     }
 
     @Override
-    public AccountListResponse parseResponse(final String response) throws IOException {
-        return JacksonFactory.newInstance().readValue(response, AccountListResponse.class);
-    }
-
-    public AccountListRequest withSearch(final String search) {
-        return setParam("search", search);
-    }
-
-    public AccountListRequest withPlanFilter(final String planfilter) {
-        return setParam("planfilter", planfilter);
-    }
-
-    public AccountListRequest withPage(final int page) {
-        return setParam("page", Integer.toString(page));
+    public String toString() {
+        return "RequestErrorResponse{"
+            + "errors=" + errors
+            + '}';
     }
 }

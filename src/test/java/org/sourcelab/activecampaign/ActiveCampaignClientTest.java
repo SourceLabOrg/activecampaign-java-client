@@ -23,9 +23,14 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sourcelab.activecampaign.client.response.account.Account;
-import org.sourcelab.activecampaign.client.response.account.AccountListResponse;
-import org.sourcelab.activecampaign.client.response.account.AccountResponse;
+import org.sourcelab.activecampaign.apiv1.ActiveCampaignApiV1Client;
+import org.sourcelab.activecampaign.apiv1.ApiV1Config;
+import org.sourcelab.activecampaign.apiv3.ActiveCampaignClient;
+import org.sourcelab.activecampaign.apiv3.ApiConfig;
+import org.sourcelab.activecampaign.apiv3.response.account.Account;
+import org.sourcelab.activecampaign.apiv3.response.account.AccountListResponse;
+import org.sourcelab.activecampaign.apiv3.response.account.AccountResponse;
+import org.sourcelab.activecampaign.apiv3.response.user.UsersMeResponse;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,11 +48,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ActiveCampaignClientTest {
     private static final Logger logger = LoggerFactory.getLogger(ActiveCampaignClientTest.class);
 
-    /**
-     * Set during class bootstrap.
-     */
-    private static ApiConfig apiConfig = null;
-    private static ActiveCampaignClient apiClient = null;
+    private static ActiveCampaignClient apiV3Client = null;
 
     @BeforeAll
     static void setup() throws IOException {
@@ -61,7 +62,7 @@ class ActiveCampaignClientTest {
         final String activeCampaignAccountName = properties.getProperty("account_name");
         final String activeCampaignApiToken = properties.getProperty("api_token");
 
-        if (activeCampaignAccountName == null || activeCampaignApiToken == null) {
+        if ((activeCampaignAccountName == null || activeCampaignApiToken == null)) {
             throw new RuntimeException(
                 "To run the integration tests you must create a resource file named test_credentials.properties which contains the properties:\n"
                 + " account_name \n"
@@ -69,8 +70,11 @@ class ActiveCampaignClientTest {
             );
         }
 
-        apiConfig = new ApiConfig(activeCampaignAccountName, activeCampaignApiToken);
-        apiClient = new ActiveCampaignClient(apiConfig);
+        /**
+         * Set during class bootstrap.
+         */
+        ApiConfig apiConfig = new ApiConfig(activeCampaignAccountName, activeCampaignApiToken);
+        apiV3Client = new ActiveCampaignClient(apiConfig);
     }
 
     /**
@@ -78,9 +82,9 @@ class ActiveCampaignClientTest {
      */
     @AfterAll
     static void tearDown() {
-        if (apiClient != null) {
-            apiClient.close();
-            apiClient = null;
+        if (apiV3Client != null) {
+            apiV3Client.close();
+            apiV3Client = null;
         }
     }
 
@@ -89,8 +93,18 @@ class ActiveCampaignClientTest {
      */
     @Test
     void smokeTest() {
-        final boolean isLoginValid = apiClient.loginTest();
+        final boolean isLoginValid = apiV3Client.loginTest();
         assertTrue(isLoginValid, "Response should be true.");
+    }
+
+    /**
+     * Smoke test about me end point.
+     */
+    @Test
+    void testAboutMe() {
+        final UsersMeResponse response = apiV3Client.usersMe();
+        logger.info("V3: {}", response);
+        assertNotNull(response);
     }
 
     /**
@@ -106,12 +120,12 @@ class ActiveCampaignClientTest {
             .build();
 
         // Make api request to create the account
-        final AccountResponse resp = apiClient.accountCreate(accountToCreate);
+        final AccountResponse resp = apiV3Client.accountCreate(accountToCreate);
         assertNotNull(resp);
         assertNotNull(resp.getAccount());
         assertNotNull(resp.getAccount().getId());
 
-        final AccountListResponse response = apiClient.accountList();
+        final AccountListResponse response = apiV3Client.accountList();
         //logger.info("{}", response);
 
         final Optional<Account> createdAccountOptional = response.getAccounts()
@@ -127,7 +141,7 @@ class ActiveCampaignClientTest {
         assertEquals(accountToCreate.getAccountUrl(), createdAccount.getAccountUrl());
 
         // Re-retrieve
-        createdAccount = apiClient.accountsRetrieve(createdAccount.getId()).getAccount();
+        createdAccount = apiV3Client.accountsRetrieve(createdAccount.getId()).getAccount();
 
         // Validate basic account fields
         assertNotNull(createdAccount.getId());
@@ -142,7 +156,7 @@ class ActiveCampaignClientTest {
             .toBuilder()
             .withName(updatedName)
             .build();
-        final Account updatedAccount = apiClient.accountUpdate(toUpdateAccount).getAccount();
+        final Account updatedAccount = apiV3Client.accountUpdate(toUpdateAccount).getAccount();
 
         // Validate it was updated.
         assertEquals(createdAccount.getId(), updatedAccount.getId());
@@ -150,7 +164,7 @@ class ActiveCampaignClientTest {
         assertEquals(createdAccount.getAccountUrl(), updatedAccount.getAccountUrl());
 
         // Attempt to delete account.
-        final boolean deleteResult = apiClient.accountDelete(updatedAccount);
+        final boolean deleteResult = apiV3Client.accountDelete(updatedAccount);
         assertTrue(deleteResult);
     }
 

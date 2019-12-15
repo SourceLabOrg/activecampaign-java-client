@@ -15,39 +15,26 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.reseller.request;
+package org.sourcelab.activecampaign.apiv3.request.account;
 
 import org.sourcelab.activecampaign.JacksonFactory;
-import org.sourcelab.activecampaign.reseller.response.AccountListResponse;
+import org.sourcelab.activecampaign.apiv3.response.account.AccountListResponse;
+import org.sourcelab.http.rest.request.GetRequest;
 
 import java.io.IOException;
 
 /**
- * Account list api request.
+ * Represents an account list request.
  */
-public class AccountListRequest extends AbstractRequest<AccountListRequest, AccountListResponse> {
+public class AccountListRequest implements GetRequest<AccountListResponse> {
 
-    /**
-     * Constructor.
-     */
-    public AccountListRequest() {
-        super("account_list");
+    @Override
+    public String getApiEndpoint() {
+        return "api/3/accounts";
     }
 
     @Override
     public AccountListResponse parseResponse(final String response) throws IOException {
         return JacksonFactory.newInstance().readValue(response, AccountListResponse.class);
-    }
-
-    public AccountListRequest withSearch(final String search) {
-        return setParam("search", search);
-    }
-
-    public AccountListRequest withPlanFilter(final String planfilter) {
-        return setParam("planfilter", planfilter);
-    }
-
-    public AccountListRequest withPage(final int page) {
-        return setParam("page", Integer.toString(page));
     }
 }

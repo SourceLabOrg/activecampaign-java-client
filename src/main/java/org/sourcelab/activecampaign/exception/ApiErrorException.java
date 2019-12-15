@@ -17,7 +17,7 @@
 
 package org.sourcelab.activecampaign.exception;
 
-import org.sourcelab.activecampaign.client.response.error.RequestErrorResponse;
+import org.sourcelab.activecampaign.apiv3.response.error.RequestErrorResponse;
 import org.sourcelab.http.rest.exceptions.InvalidRequestException;
 
 /**

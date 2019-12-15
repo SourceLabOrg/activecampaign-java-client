@@ -15,39 +15,30 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.reseller.request;
+package org.sourcelab.activecampaign.apiv3.response.account;
 
-import org.sourcelab.activecampaign.JacksonFactory;
-import org.sourcelab.activecampaign.reseller.response.AccountListResponse;
-
-import java.io.IOException;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Account list api request.
+ * Represents an Account retrieve response.
  */
-public class AccountListRequest extends AbstractRequest<AccountListRequest, AccountListResponse> {
+public class AccountResponse {
+    private final Account account;
 
-    /**
-     * Constructor.
-     */
-    public AccountListRequest() {
-        super("account_list");
+    public AccountResponse(
+        @JsonProperty("account") final Account account
+    ) {
+        this.account = account;
+    }
+
+    public Account getAccount() {
+        return account;
     }
 
     @Override
-    public AccountListResponse parseResponse(final String response) throws IOException {
-        return JacksonFactory.newInstance().readValue(response, AccountListResponse.class);
-    }
-
-    public AccountListRequest withSearch(final String search) {
-        return setParam("search", search);
-    }
-
-    public AccountListRequest withPlanFilter(final String planfilter) {
-        return setParam("planfilter", planfilter);
-    }
-
-    public AccountListRequest withPage(final int page) {
-        return setParam("page", Integer.toString(page));
+    public String toString() {
+        return "AccountRetrieveRespose{"
+            + "account=" + account
+            + '}';
     }
 }

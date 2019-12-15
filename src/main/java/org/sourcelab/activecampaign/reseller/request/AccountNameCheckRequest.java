@@ -17,7 +17,7 @@
 
 package org.sourcelab.activecampaign.reseller.request;
 
-import org.sourcelab.activecampaign.client.response.JacksonFactory;
+import org.sourcelab.activecampaign.JacksonFactory;
 import org.sourcelab.activecampaign.reseller.response.AccountNameCheckResponse;
 
 import java.io.IOException;

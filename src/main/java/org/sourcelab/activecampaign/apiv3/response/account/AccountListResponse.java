@@ -15,39 +15,52 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.reseller.request;
+package org.sourcelab.activecampaign.apiv3.response.account;
 
-import org.sourcelab.activecampaign.JacksonFactory;
-import org.sourcelab.activecampaign.reseller.response.AccountListResponse;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.sourcelab.activecampaign.apiv3.response.Meta;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * Account list api request.
+ * Represents the response returned from the accounts list api resource.
  */
-public class AccountListRequest extends AbstractRequest<AccountListRequest, AccountListResponse> {
+public class AccountListResponse {
+    private final List<Account> accounts;
+    private final Meta meta;
 
     /**
      * Constructor.
      */
-    public AccountListRequest() {
-        super("account_list");
+    @JsonCreator
+    public AccountListResponse(
+        @JsonProperty("accounts") final List<Account> accounts,
+        @JsonProperty("meta") final Meta meta
+    ) {
+        if (accounts == null) {
+            this.accounts = Collections.emptyList();
+        } else {
+            this.accounts = Collections.unmodifiableList(new ArrayList<>(accounts));
+        }
+        this.meta = meta;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public Meta getMeta() {
+        return meta;
     }
 
     @Override
-    public AccountListResponse parseResponse(final String response) throws IOException {
-        return JacksonFactory.newInstance().readValue(response, AccountListResponse.class);
-    }
-
-    public AccountListRequest withSearch(final String search) {
-        return setParam("search", search);
-    }
-
-    public AccountListRequest withPlanFilter(final String planfilter) {
-        return setParam("planfilter", planfilter);
-    }
-
-    public AccountListRequest withPage(final int page) {
-        return setParam("page", Integer.toString(page));
+    public String toString() {
+        return "AccountListResponse{"
+            + "accounts=" + accounts
+            + ", meta=" + meta
+            + '}';
     }
 }

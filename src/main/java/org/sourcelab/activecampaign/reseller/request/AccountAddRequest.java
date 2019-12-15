@@ -17,7 +17,7 @@
 
 package org.sourcelab.activecampaign.reseller.request;
 
-import org.sourcelab.activecampaign.client.response.JacksonFactory;
+import org.sourcelab.activecampaign.JacksonFactory;
 import org.sourcelab.activecampaign.reseller.response.AccountAddResponse;
 import org.sourcelab.http.rest.request.RequestMethod;
 
@@ -65,6 +65,14 @@ public class AccountAddRequest extends AbstractRequest<AccountAddRequest, Accoun
 
     public AccountAddRequest withSnapshot(final int snapshotId) {
         return setParam("snapshot", Integer.toString(snapshotId));
+    }
+
+    public AccountAddRequest withClientName(final String name) {
+        return setParam("name", name);
+    }
+
+    public AccountAddRequest withClientEmail(final String clientEmail) {
+        return setParam("email", clientEmail);
     }
 
     @Override

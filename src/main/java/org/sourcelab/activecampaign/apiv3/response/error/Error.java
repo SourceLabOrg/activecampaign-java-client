@@ -15,39 +15,56 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.reseller.request;
+package org.sourcelab.activecampaign.apiv3.response.error;
 
-import org.sourcelab.activecampaign.JacksonFactory;
-import org.sourcelab.activecampaign.reseller.response.AccountListResponse;
-
-import java.io.IOException;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Account list api request.
+ * Represents an Api error.
  */
-public class AccountListRequest extends AbstractRequest<AccountListRequest, AccountListResponse> {
+public class Error {
+    private final String title;
+    private final String detail;
+    private final String code;
+    private final Source source;
 
-    /**
-     * Constructor.
-     */
-    public AccountListRequest() {
-        super("account_list");
+    @JsonCreator
+    public Error(
+        @JsonProperty("title") final String title,
+        @JsonProperty("detail") final String detail,
+        @JsonProperty("code") final String code,
+        @JsonProperty("source") final Source source
+    ) {
+        this.title = title;
+        this.detail = detail;
+        this.code = code;
+        this.source = source;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public Source getSource() {
+        return source;
     }
 
     @Override
-    public AccountListResponse parseResponse(final String response) throws IOException {
-        return JacksonFactory.newInstance().readValue(response, AccountListResponse.class);
-    }
-
-    public AccountListRequest withSearch(final String search) {
-        return setParam("search", search);
-    }
-
-    public AccountListRequest withPlanFilter(final String planfilter) {
-        return setParam("planfilter", planfilter);
-    }
-
-    public AccountListRequest withPage(final int page) {
-        return setParam("page", Integer.toString(page));
+    public String toString() {
+        return "Error{"
+            + "title='" + title + '\''
+            + ", detail='" + detail + '\''
+            + ", code='" + code + '\''
+            + ", source=" + source
+            + '}';
     }
 }

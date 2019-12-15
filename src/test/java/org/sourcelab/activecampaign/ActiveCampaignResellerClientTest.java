@@ -24,6 +24,8 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sourcelab.activecampaign.exception.InvalidCredentialsException;
+import org.sourcelab.activecampaign.reseller.ActiveCampaignResellerClient;
+import org.sourcelab.activecampaign.reseller.ResellerApiConfig;
 import org.sourcelab.activecampaign.reseller.request.AccountAddRequest;
 import org.sourcelab.activecampaign.reseller.request.AccountCancelRequest;
 import org.sourcelab.activecampaign.reseller.request.AccountConversationsRequest;

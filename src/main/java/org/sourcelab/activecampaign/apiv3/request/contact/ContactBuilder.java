@@ -80,6 +80,7 @@ public class ContactBuilder {
         fields.forEach((key, value) -> fieldValues.add(new Contact.FieldValue(key, value)));
 
         return new Contact(
+            id,
             email,
             firstName,
             lastName,

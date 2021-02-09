@@ -19,6 +19,7 @@ package org.sourcelab.activecampaign.apiv3.request.contact;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import org.slf4j.Logger;
@@ -35,7 +36,10 @@ import java.util.Map;
  *
  */
 @JsonRootName(value = "contact")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Contact {
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private final Long id;
     private final String email;
     private final String firstName;
     private final String lastName;
@@ -48,13 +52,14 @@ public class Contact {
 
     @JsonCreator
     public Contact(
+        @JsonProperty("id") final Long id,
         @JsonProperty("email") final String email,
         @JsonProperty("firstName") final String firstName,
         @JsonProperty("lastName") final String lastName,
         @JsonProperty("phone") final String phone,
         final List<FieldValue> fieldValues
     ) {
-        
+        this.id = id;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -89,7 +94,8 @@ public class Contact {
     @Override
     public String toString() {
         return "Contact{"
-            + "email='" + email + '\''
+            + "id=" + id
+            + ", email='" + email + '\''
             + ", firstName='" + firstName + '\''
             + ", lastName='" + lastName + '\''
             + ", phone='" + phone + '\''

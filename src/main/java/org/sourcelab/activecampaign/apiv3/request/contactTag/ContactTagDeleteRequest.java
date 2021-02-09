@@ -15,34 +15,57 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.apiv1.request.user;
+package org.sourcelab.activecampaign.apiv3.request.contactTag;
 
-import org.sourcelab.activecampaign.apiv1.response.user.UsersMeResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.sourcelab.activecampaign.JacksonFactory;
-import org.sourcelab.http.rest.request.GetRequest;
+import org.sourcelab.activecampaign.apiv3.response.contactTag.ContactTagCreateResponse;
+import org.sourcelab.activecampaign.apiv3.response.contactTag.ContactTagDeleteResponse;
+import org.sourcelab.http.rest.request.Request;
+import org.sourcelab.http.rest.request.RequestMethod;
 import org.sourcelab.http.rest.request.body.RequestBodyContent;
-import org.sourcelab.http.rest.request.body.UrlEncodedFormBodyContent;
+import org.sourcelab.http.rest.request.body.StringBodyContent;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
- * Returns information about the current API user.
+ * Represents an account create request.
  */
-public class UsersMeApiV1Request implements GetRequest<UsersMeResponse> {
+public class ContactTagDeleteRequest implements Request<ContactTagDeleteResponse> {
+    private final ContactTag contactTag;
+
+    /**
+     * Constructor.
+     * @param contactTag contactTag
+     */
+    public ContactTagDeleteRequest(final ContactTag contactTag) {
+        this.contactTag = Objects.requireNonNull(contactTag);
+    }
 
     @Override
     public String getApiEndpoint() {
-        return "admin/api.php";
+        return "api/3/contactTags";
+    }
+
+    @Override
+    public RequestMethod getRequestMethod() {
+        return RequestMethod.DELETE;
     }
 
     @Override
     public RequestBodyContent getRequestBody() {
-        return new UrlEncodedFormBodyContent()
-            .addParameter("api_action", "user_me");
+        try {
+            return new StringBodyContent(
+                JacksonFactory.newInstance().writeValueAsString(contactTag)
+            );
+        } catch (final JsonProcessingException exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
     @Override
-    public UsersMeResponse parseResponse(final String responseStr) throws IOException {
-        return JacksonFactory.newInstance().readValue(responseStr, UsersMeResponse.class);
+    public ContactTagDeleteResponse parseResponse(final String response) throws IOException {
+        return JacksonFactory.newInstance().readValue(response, ContactTagDeleteResponse.class);
     }
 }

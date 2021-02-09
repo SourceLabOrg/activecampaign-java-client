@@ -15,34 +15,58 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.apiv1.request.user;
+package org.sourcelab.activecampaign.apiv3.request.contact;
 
-import org.sourcelab.activecampaign.apiv1.response.user.UsersMeResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.sourcelab.activecampaign.JacksonFactory;
-import org.sourcelab.http.rest.request.GetRequest;
+import org.sourcelab.activecampaign.apiv3.response.account.Account;
+import org.sourcelab.activecampaign.apiv3.response.account.AccountResponse;
+import org.sourcelab.activecampaign.apiv3.response.contact.ContactCreateResponse;
+import org.sourcelab.http.rest.request.Request;
+import org.sourcelab.http.rest.request.RequestMethod;
 import org.sourcelab.http.rest.request.body.RequestBodyContent;
-import org.sourcelab.http.rest.request.body.UrlEncodedFormBodyContent;
+import org.sourcelab.http.rest.request.body.StringBodyContent;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
- * Returns information about the current API user.
+ * Represents an account create request.
  */
-public class UsersMeApiV1Request implements GetRequest<UsersMeResponse> {
+public class ContactCreateRequest implements Request<ContactCreateResponse> {
+    private final Contact contact;
+
+    /**
+     * Constructor.
+     * @param contact Contact
+     */
+    public ContactCreateRequest(final Contact contact) {
+        this.contact = Objects.requireNonNull(contact);
+    }
 
     @Override
     public String getApiEndpoint() {
-        return "admin/api.php";
+        return "api/3/contact/sync";
+    }
+
+    @Override
+    public RequestMethod getRequestMethod() {
+        return RequestMethod.POST;
     }
 
     @Override
     public RequestBodyContent getRequestBody() {
-        return new UrlEncodedFormBodyContent()
-            .addParameter("api_action", "user_me");
+        try {
+            return new StringBodyContent(
+                JacksonFactory.newInstance().writeValueAsString(contact)
+            );
+        } catch (final JsonProcessingException exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
     @Override
-    public UsersMeResponse parseResponse(final String responseStr) throws IOException {
-        return JacksonFactory.newInstance().readValue(responseStr, UsersMeResponse.class);
+    public ContactCreateResponse parseResponse(final String response) throws IOException {
+        return JacksonFactory.newInstance().readValue(response, ContactCreateResponse.class);
     }
 }

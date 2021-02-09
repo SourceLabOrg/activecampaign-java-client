@@ -15,34 +15,45 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.sourcelab.activecampaign.apiv1.request.user;
+package org.sourcelab.activecampaign.apiv3.response.tag;
 
-import org.sourcelab.activecampaign.apiv1.response.user.UsersMeResponse;
-import org.sourcelab.activecampaign.JacksonFactory;
-import org.sourcelab.http.rest.request.GetRequest;
-import org.sourcelab.http.rest.request.body.RequestBodyContent;
-import org.sourcelab.http.rest.request.body.UrlEncodedFormBodyContent;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.sourcelab.activecampaign.apiv3.response.customField.Field;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * Returns information about the current API user.
+ * Represents the response returned from the accounts list api resource.
  */
-public class UsersMeApiV1Request implements GetRequest<UsersMeResponse> {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class TagListResponse {
+    private final List<Tag> tags;
 
-    @Override
-    public String getApiEndpoint() {
-        return "admin/api.php";
+    /**
+     * Constructor.
+     */
+    @JsonCreator
+    public TagListResponse(
+        @JsonProperty("tags") final List<Tag> tags) {
+        if (tags == null) {
+            this.tags = Collections.emptyList();
+        } else {
+            this.tags = Collections.unmodifiableList(new ArrayList<>(tags));
+        }
+    }
+
+    public List<Tag> getTags() {
+        return tags;
     }
 
     @Override
-    public RequestBodyContent getRequestBody() {
-        return new UrlEncodedFormBodyContent()
-            .addParameter("api_action", "user_me");
-    }
-
-    @Override
-    public UsersMeResponse parseResponse(final String responseStr) throws IOException {
-        return JacksonFactory.newInstance().readValue(responseStr, UsersMeResponse.class);
+    public String toString() {
+        return "TagListResponse{"
+            + "tags=" + tags
+            + '}';
     }
 }

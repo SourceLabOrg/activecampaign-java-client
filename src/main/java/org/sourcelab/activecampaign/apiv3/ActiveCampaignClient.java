@@ -24,10 +24,25 @@ import org.sourcelab.activecampaign.apiv3.request.account.AccountDeleteRequest;
 import org.sourcelab.activecampaign.apiv3.request.account.AccountListRequest;
 import org.sourcelab.activecampaign.apiv3.request.account.AccountRetrieveRequest;
 import org.sourcelab.activecampaign.apiv3.request.account.AccountUpdateRequest;
+import org.sourcelab.activecampaign.apiv3.request.contact.Contact;
+import org.sourcelab.activecampaign.apiv3.request.contact.ContactCreateRequest;
+import org.sourcelab.activecampaign.apiv3.request.contactTag.ContactTag;
+import org.sourcelab.activecampaign.apiv3.request.contactTag.ContactTagCreateRequest;
+import org.sourcelab.activecampaign.apiv3.request.contactTag.ContactTagDeleteRequest;
+import org.sourcelab.activecampaign.apiv3.request.customField.CustomFieldListRequest;
+import org.sourcelab.activecampaign.apiv3.request.tag.TagCreateRequest;
+import org.sourcelab.activecampaign.apiv3.request.tag.TagListRequest;
 import org.sourcelab.activecampaign.apiv3.request.user.UsersMeRequest;
 import org.sourcelab.activecampaign.apiv3.response.account.Account;
 import org.sourcelab.activecampaign.apiv3.response.account.AccountListResponse;
 import org.sourcelab.activecampaign.apiv3.response.account.AccountResponse;
+import org.sourcelab.activecampaign.apiv3.response.contact.ContactCreateResponse;
+import org.sourcelab.activecampaign.apiv3.response.contactTag.ContactTagCreateResponse;
+import org.sourcelab.activecampaign.apiv3.response.contactTag.ContactTagDeleteResponse;
+import org.sourcelab.activecampaign.apiv3.response.customField.CustomFieldListResponse;
+import org.sourcelab.activecampaign.apiv3.response.tag.Tag;
+import org.sourcelab.activecampaign.apiv3.response.tag.TagCreateResponse;
+import org.sourcelab.activecampaign.apiv3.response.tag.TagListResponse;
 import org.sourcelab.activecampaign.apiv3.response.user.UsersMeResponse;
 import org.sourcelab.activecampaign.exception.InvalidCredentialsException;
 import org.sourcelab.http.rest.RestResponse;
@@ -113,6 +128,38 @@ public class ActiveCampaignClient extends AbstractClient {
      */
     public boolean accountDelete(final Account account) {
         return submitRequest(new AccountDeleteRequest(account));
+    }
+
+    public ContactCreateResponse contactCreate(final Contact contactToCreate) {
+        return submitRequest(new ContactCreateRequest(contactToCreate));
+    }
+
+    public ContactCreateResponse contactSync(final Contact contactToCreate) {
+        return submitRequest(new ContactCreateRequest(contactToCreate));
+    }
+
+    public TagListResponse tagList() {
+        return submitRequest(new TagListRequest());
+    }
+
+    public TagCreateResponse tagCreate(final Tag tag) {
+        return submitRequest(new TagCreateRequest(tag));
+    }
+
+    public ContactTagCreateResponse contactTagCreate(final ContactTag contactTag) {
+        return submitRequest(new ContactTagCreateRequest(contactTag));
+    }
+
+    public ContactTagDeleteResponse contactTagDelete(final ContactTag contactTag) {
+        return submitRequest(new ContactTagDeleteRequest(contactTag));
+    }
+
+    /**
+     * Retrieve all Custom Fields defined.
+     * @return Custom Field List Response.
+     */
+    public CustomFieldListResponse customFieldList() {
+        return submitRequest(new CustomFieldListRequest());
     }
 
     @Override

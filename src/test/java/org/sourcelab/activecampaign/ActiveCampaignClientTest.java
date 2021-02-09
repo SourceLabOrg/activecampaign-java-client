@@ -23,13 +23,19 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sourcelab.activecampaign.apiv1.ActiveCampaignApiV1Client;
-import org.sourcelab.activecampaign.apiv1.ApiV1Config;
 import org.sourcelab.activecampaign.apiv3.ActiveCampaignClient;
 import org.sourcelab.activecampaign.apiv3.ApiConfig;
+import org.sourcelab.activecampaign.apiv3.request.contact.Contact;
+import org.sourcelab.activecampaign.apiv3.request.contactTag.ContactTag;
 import org.sourcelab.activecampaign.apiv3.response.account.Account;
 import org.sourcelab.activecampaign.apiv3.response.account.AccountListResponse;
 import org.sourcelab.activecampaign.apiv3.response.account.AccountResponse;
+import org.sourcelab.activecampaign.apiv3.response.contact.ContactCreateResponse;
+import org.sourcelab.activecampaign.apiv3.response.contactTag.ContactTagCreateResponse;
+import org.sourcelab.activecampaign.apiv3.response.contactTag.ContactTagDeleteResponse;
+import org.sourcelab.activecampaign.apiv3.response.customField.CustomFieldListResponse;
+import org.sourcelab.activecampaign.apiv3.response.tag.TagCreateResponse;
+import org.sourcelab.activecampaign.apiv3.response.tag.TagListResponse;
 import org.sourcelab.activecampaign.apiv3.response.user.UsersMeResponse;
 
 import java.io.IOException;
@@ -167,5 +173,98 @@ class ActiveCampaignClientTest {
         final boolean deleteResult = apiV3Client.accountDelete(updatedAccount);
         assertTrue(deleteResult);
     }
+
+    /**
+     * Tests the accounts resource api end points.
+     */
+    @Test
+    void testCreateContactResource() {
+        // Create a test account.
+        final Contact contactToCreate = Contact.newBuilder()
+            .withFirstName("My First Name " + System.currentTimeMillis())
+            .withLastName("My Last Name " + System.currentTimeMillis())
+            .withEmail("test" + System.currentTimeMillis() + "@example.com")
+            .withPhone("123-123-1234")
+            .withField(2L, "Field 2 value")
+            .withField(1L, "Field 1 value")
+            .build();
+
+        // Make api request to create the account
+        final ContactCreateResponse resp = apiV3Client.contactCreate(contactToCreate);
+        logger.info("Resop: {}", resp);
+    }
+
+    /**
+     * Tests the accounts resource api end points.
+     */
+    @Test
+    void testSyncContactResource() {
+        // Create a test account.
+        final Contact contactToCreate = Contact.newBuilder()
+            .withFirstName("My First Name " + System.currentTimeMillis())
+            .withLastName("My Last Name " + System.currentTimeMillis())
+            .withEmail("test" + System.currentTimeMillis() + "@example.com")
+            .withPhone("123-123-1234")
+            .withField(2L, "Field 2 value")
+            .withField(1L, "Field 1 value")
+            .build();
+
+        // Make api request to create the account
+        final ContactCreateResponse resp = apiV3Client.contactSync(contactToCreate);
+        logger.info("Resop: {}", resp);
+        final ContactCreateResponse resp2 = apiV3Client.contactSync(contactToCreate);
+        logger.info("Resop: {}", resp2);
+    }
+
+    /**
+     * Tests the accounts resource api end points.
+     */
+    @Test
+    void testListCustomFields() {
+        final CustomFieldListResponse resp = apiV3Client.customFieldList();
+        logger.info("Resop: {}", resp);
+    }
+
+    /**
+     * Tests the accounts resource api end points.
+     */
+    @Test
+    void testTagCreate() {
+        final TagCreateResponse resp = apiV3Client.tagCreate(org.sourcelab.activecampaign.apiv3.response.tag.Tag.newBuilder()
+            .withTag("Test Tag 2")
+            .withDescription("My Description")
+            .withTagType("contact")
+            .build()
+        );
+        logger.info("Resop: {}", resp);
+    }
+
+    /**
+     * Tests the accounts resource api end points.
+     */
+    @Test
+    void testTagList() {
+        final TagListResponse resp = apiV3Client.tagList();
+        logger.info("Resop: {}", resp);
+    }
+
+    /**
+     * Tests the accounts resource api end points.
+     */
+    @Test
+    void testTagContactCreate() {
+        final ContactTagCreateResponse resp = apiV3Client.contactTagCreate(new ContactTag(1L, 3L));
+        logger.info("Resop: {}", resp);
+    }
+
+    /**
+     * Tests the accounts resource api end points.
+     */
+    @Test
+    void testTagContactDelete() {
+        final ContactTagDeleteResponse resp = apiV3Client.contactTagDelete(new ContactTag(1L, 3L));
+        logger.info("Resop: {}", resp);
+    }
+
 
 }

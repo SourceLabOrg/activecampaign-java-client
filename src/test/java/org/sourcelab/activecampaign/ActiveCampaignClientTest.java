@@ -282,7 +282,7 @@ class ActiveCampaignClientTest {
      */
     @Test
     void testContactList() {
-        final ContactCreateResponse resp = apiV3Client.contactList(new ContactListSubscribeRequest(1, 2, true));
+        final String resp = apiV3Client.contactList(new ContactListSubscribeRequest(1, 2, true));
         logger.info("Resop: {}", resp);
     }
 }

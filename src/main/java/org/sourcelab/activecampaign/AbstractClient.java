@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.sourcelab.activecampaign.apiv3.request.contact.Contact;
 import org.sourcelab.activecampaign.apiv3.response.account.AccountResponse;
 import org.sourcelab.activecampaign.apiv3.response.error.RequestErrorResponse;
+import org.sourcelab.activecampaign.apiv3.response.list.ListListResponse;
 import org.sourcelab.activecampaign.exception.ApiErrorException;
 import org.sourcelab.activecampaign.exception.InvalidCredentialsException;
 import org.sourcelab.http.rest.HttpClientRestClient;

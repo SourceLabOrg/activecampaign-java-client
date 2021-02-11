@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.sourcelab.activecampaign.apiv3.ActiveCampaignClient;
 import org.sourcelab.activecampaign.apiv3.ApiConfig;
 import org.sourcelab.activecampaign.apiv3.request.contact.Contact;
+import org.sourcelab.activecampaign.apiv3.request.contactList.ContactListSubscribeRequest;
 import org.sourcelab.activecampaign.apiv3.request.contactTag.ContactTag;
 import org.sourcelab.activecampaign.apiv3.response.account.Account;
 import org.sourcelab.activecampaign.apiv3.response.account.AccountListResponse;
@@ -34,6 +35,7 @@ import org.sourcelab.activecampaign.apiv3.response.contact.ContactCreateResponse
 import org.sourcelab.activecampaign.apiv3.response.contactTag.ContactTagCreateResponse;
 import org.sourcelab.activecampaign.apiv3.response.contactTag.ContactTagDeleteResponse;
 import org.sourcelab.activecampaign.apiv3.response.customField.CustomFieldListResponse;
+import org.sourcelab.activecampaign.apiv3.response.list.ListListResponse;
 import org.sourcelab.activecampaign.apiv3.response.tag.TagCreateResponse;
 import org.sourcelab.activecampaign.apiv3.response.tag.TagListResponse;
 import org.sourcelab.activecampaign.apiv3.response.user.UsersMeResponse;
@@ -266,5 +268,21 @@ class ActiveCampaignClientTest {
         logger.info("Resop: {}", resp);
     }
 
+    /**
+     * Tests the accounts resource api end points.
+     */
+    @Test
+    void testListList() {
+        final ListListResponse resp = apiV3Client.listList();
+        logger.info("Resop: {}", resp);
+    }
 
+    /**
+     * Tests the accounts resource api end points.
+     */
+    @Test
+    void testContactList() {
+        final ContactCreateResponse resp = apiV3Client.contactList(new ContactListSubscribeRequest(1, 2, true));
+        logger.info("Resop: {}", resp);
+    }
 }

@@ -304,9 +304,13 @@
     <!-- For deploying to maven central -->
     <distributionManagement>
         <!-- Snapshot repository -->
+<!--        <snapshotRepository>-->
+<!--            <id>ossrh</id>-->
+<!--            <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+<!--        </snapshotRepository>-->
         <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>myrepository</id>
+            <url>file:/Users/stephen.powis/Documents/code/ai-facebook-web/repo</url>
         </snapshotRepository>
     </distributionManagement>
 

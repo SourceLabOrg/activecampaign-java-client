@@ -26,10 +26,12 @@ import org.sourcelab.activecampaign.apiv3.request.account.AccountRetrieveRequest
 import org.sourcelab.activecampaign.apiv3.request.account.AccountUpdateRequest;
 import org.sourcelab.activecampaign.apiv3.request.contact.Contact;
 import org.sourcelab.activecampaign.apiv3.request.contact.ContactCreateRequest;
+import org.sourcelab.activecampaign.apiv3.request.contactList.ContactListSubscribeRequest;
 import org.sourcelab.activecampaign.apiv3.request.contactTag.ContactTag;
 import org.sourcelab.activecampaign.apiv3.request.contactTag.ContactTagCreateRequest;
 import org.sourcelab.activecampaign.apiv3.request.contactTag.ContactTagDeleteRequest;
 import org.sourcelab.activecampaign.apiv3.request.customField.CustomFieldListRequest;
+import org.sourcelab.activecampaign.apiv3.request.list.ListListRequest;
 import org.sourcelab.activecampaign.apiv3.request.tag.TagCreateRequest;
 import org.sourcelab.activecampaign.apiv3.request.tag.TagListRequest;
 import org.sourcelab.activecampaign.apiv3.request.user.UsersMeRequest;
@@ -40,6 +42,7 @@ import org.sourcelab.activecampaign.apiv3.response.contact.ContactCreateResponse
 import org.sourcelab.activecampaign.apiv3.response.contactTag.ContactTagCreateResponse;
 import org.sourcelab.activecampaign.apiv3.response.contactTag.ContactTagDeleteResponse;
 import org.sourcelab.activecampaign.apiv3.response.customField.CustomFieldListResponse;
+import org.sourcelab.activecampaign.apiv3.response.list.ListListResponse;
 import org.sourcelab.activecampaign.apiv3.response.tag.Tag;
 import org.sourcelab.activecampaign.apiv3.response.tag.TagCreateResponse;
 import org.sourcelab.activecampaign.apiv3.response.tag.TagListResponse;
@@ -160,6 +163,14 @@ public class ActiveCampaignClient extends AbstractClient {
      */
     public CustomFieldListResponse customFieldList() {
         return submitRequest(new CustomFieldListRequest());
+    }
+
+    public ListListResponse listList() {
+        return submitRequest(new ListListRequest());
+    }
+
+    public String contactList(final ContactListSubscribeRequest contactListSubscribeRequest) {
+        return submitRequest(contactListSubscribeRequest);
     }
 
     @Override

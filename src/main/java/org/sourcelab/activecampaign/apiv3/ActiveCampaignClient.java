@@ -145,8 +145,8 @@ public class ActiveCampaignClient extends AbstractClient {
         return submitRequest(new TagListRequest());
     }
 
-    public TagCreateResponse tagCreate(final Tag tag) {
-        return submitRequest(new TagCreateRequest(tag));
+    public TagCreateResponse tagCreate(final TagCreateRequest request) {
+        return submitRequest(request);
     }
 
     public ContactTagCreateResponse contactTagCreate(final ContactTag contactTag) {

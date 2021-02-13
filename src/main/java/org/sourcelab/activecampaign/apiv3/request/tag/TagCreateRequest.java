@@ -32,18 +32,10 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * Represents an account create request.
+ * Represents a tag create request.
  */
 public class TagCreateRequest implements Request<TagCreateResponse> {
-    private final Tag tag;
-
-    /**
-     * Constructor.
-     * @param tag tag
-     */
-    public TagCreateRequest(final Tag tag) {
-        this.tag = Objects.requireNonNull(tag);
-    }
+    private final TagCreateDto tagCreateDto = new TagCreateDto();
 
     @Override
     public String getApiEndpoint() {
@@ -55,11 +47,33 @@ public class TagCreateRequest implements Request<TagCreateResponse> {
         return RequestMethod.POST;
     }
 
+    public TagCreateRequest withTag(final String tag) {
+        tagCreateDto.setTag(tag);
+        return this;
+    }
+
+    public TagCreateRequest withDescription(final String description) {
+        tagCreateDto.setDescription(description);
+        return this;
+    }
+
+    public TagCreateRequest withTagType(final String tagType) {
+        tagCreateDto.setTagType(tagType);
+        return this;
+    }
+
+    public TagCreateRequest withTagTypeContact() {
+        return withTagType("contact");
+    }
+    public TagCreateRequest withTagTypeTemplate() {
+        return withTagType("template");
+    }
+
     @Override
     public RequestBodyContent getRequestBody() {
         try {
             return new StringBodyContent(
-                JacksonFactory.newInstance().writeValueAsString(tag)
+                JacksonFactory.newInstance().writeValueAsString(tagCreateDto)
             );
         } catch (final JsonProcessingException exception) {
             throw new RuntimeException(exception);

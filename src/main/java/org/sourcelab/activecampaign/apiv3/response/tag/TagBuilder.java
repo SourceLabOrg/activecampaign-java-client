@@ -36,6 +36,10 @@ public final class TagBuilder {
         return this;
     }
 
+    public TagBuilder withContactTagType() {
+        return withTagType("contact");
+    }
+
     public TagBuilder withTagType(String tagType) {
         this.tagType = tagType;
         return this;

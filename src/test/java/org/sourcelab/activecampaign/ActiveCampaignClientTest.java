@@ -28,6 +28,7 @@ import org.sourcelab.activecampaign.apiv3.ApiConfig;
 import org.sourcelab.activecampaign.apiv3.request.contact.Contact;
 import org.sourcelab.activecampaign.apiv3.request.contactList.ContactListSubscribeRequest;
 import org.sourcelab.activecampaign.apiv3.request.contactTag.ContactTag;
+import org.sourcelab.activecampaign.apiv3.request.tag.TagCreateRequest;
 import org.sourcelab.activecampaign.apiv3.response.account.Account;
 import org.sourcelab.activecampaign.apiv3.response.account.AccountListResponse;
 import org.sourcelab.activecampaign.apiv3.response.account.AccountResponse;
@@ -232,11 +233,10 @@ class ActiveCampaignClientTest {
      */
     @Test
     void testTagCreate() {
-        final TagCreateResponse resp = apiV3Client.tagCreate(org.sourcelab.activecampaign.apiv3.response.tag.Tag.newBuilder()
-            .withTag("Test Tag 2")
+        final TagCreateResponse resp = apiV3Client.tagCreate(new TagCreateRequest()
+            .withTag("Test Tag 200")
             .withDescription("My Description")
             .withTagType("contact")
-            .build()
         );
         logger.info("Resop: {}", resp);
     }

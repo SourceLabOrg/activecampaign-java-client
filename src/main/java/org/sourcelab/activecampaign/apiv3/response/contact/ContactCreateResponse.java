@@ -29,12 +29,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
+ * Represents the API response from creating a Contact.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ContactCreateResponse {
     private final Contact contact;
 
+    /**
+     * Constructor.
+     */
     @JsonCreator
     public ContactCreateResponse(
         @JsonProperty("fieldValues") final List<Contact.FieldValue> fieldValues,

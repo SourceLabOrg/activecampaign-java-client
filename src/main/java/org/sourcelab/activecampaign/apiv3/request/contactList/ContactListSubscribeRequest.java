@@ -19,9 +19,6 @@ package org.sourcelab.activecampaign.apiv3.request.contactList;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.sourcelab.activecampaign.JacksonFactory;
-import org.sourcelab.activecampaign.apiv3.request.contactTag.ContactTag;
-import org.sourcelab.activecampaign.apiv3.response.contact.ContactCreateResponse;
-import org.sourcelab.activecampaign.apiv3.response.contactTag.ContactTagCreateResponse;
 import org.sourcelab.http.rest.request.Request;
 import org.sourcelab.http.rest.request.RequestMethod;
 import org.sourcelab.http.rest.request.body.RequestBodyContent;

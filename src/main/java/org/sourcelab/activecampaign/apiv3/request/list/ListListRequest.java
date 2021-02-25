@@ -19,7 +19,6 @@ package org.sourcelab.activecampaign.apiv3.request.list;
 
 import org.sourcelab.activecampaign.JacksonFactory;
 import org.sourcelab.activecampaign.apiv3.response.list.ListListResponse;
-import org.sourcelab.activecampaign.apiv3.response.tag.TagListResponse;
 import org.sourcelab.http.rest.request.GetRequest;
 
 import java.io.IOException;

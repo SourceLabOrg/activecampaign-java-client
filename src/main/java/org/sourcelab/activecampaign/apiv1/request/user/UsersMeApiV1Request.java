@@ -17,8 +17,8 @@
 
 package org.sourcelab.activecampaign.apiv1.request.user;
 
-import org.sourcelab.activecampaign.apiv1.response.user.UsersMeResponse;
 import org.sourcelab.activecampaign.JacksonFactory;
+import org.sourcelab.activecampaign.apiv1.response.user.UsersMeResponse;
 import org.sourcelab.http.rest.request.GetRequest;
 import org.sourcelab.http.rest.request.body.RequestBodyContent;
 import org.sourcelab.http.rest.request.body.UrlEncodedFormBodyContent;

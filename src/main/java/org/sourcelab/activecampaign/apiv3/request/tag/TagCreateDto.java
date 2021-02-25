@@ -19,8 +19,6 @@ package org.sourcelab.activecampaign.apiv3.request.tag;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *

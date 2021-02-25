@@ -18,7 +18,6 @@
 package org.sourcelab.activecampaign.apiv3.request.customField;
 
 import org.sourcelab.activecampaign.JacksonFactory;
-import org.sourcelab.activecampaign.apiv3.response.account.AccountListResponse;
 import org.sourcelab.activecampaign.apiv3.response.customField.CustomFieldListResponse;
 import org.sourcelab.http.rest.request.GetRequest;
 

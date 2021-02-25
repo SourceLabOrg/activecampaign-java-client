@@ -20,7 +20,6 @@ package org.sourcelab.activecampaign.apiv3.response.tag;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.sourcelab.activecampaign.apiv3.response.customField.Field;
 
 import java.util.ArrayList;
 import java.util.Collections;

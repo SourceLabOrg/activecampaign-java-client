@@ -43,7 +43,6 @@ import org.sourcelab.activecampaign.apiv3.response.contactTag.ContactTagCreateRe
 import org.sourcelab.activecampaign.apiv3.response.contactTag.ContactTagDeleteResponse;
 import org.sourcelab.activecampaign.apiv3.response.customField.CustomFieldListResponse;
 import org.sourcelab.activecampaign.apiv3.response.list.ListListResponse;
-import org.sourcelab.activecampaign.apiv3.response.tag.Tag;
 import org.sourcelab.activecampaign.apiv3.response.tag.TagCreateResponse;
 import org.sourcelab.activecampaign.apiv3.response.tag.TagListResponse;
 import org.sourcelab.activecampaign.apiv3.response.user.UsersMeResponse;

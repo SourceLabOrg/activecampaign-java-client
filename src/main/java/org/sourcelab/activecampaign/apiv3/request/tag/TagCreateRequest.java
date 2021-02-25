@@ -19,9 +19,6 @@ package org.sourcelab.activecampaign.apiv3.request.tag;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.sourcelab.activecampaign.JacksonFactory;
-import org.sourcelab.activecampaign.apiv3.request.contact.Contact;
-import org.sourcelab.activecampaign.apiv3.response.contact.ContactCreateResponse;
-import org.sourcelab.activecampaign.apiv3.response.tag.Tag;
 import org.sourcelab.activecampaign.apiv3.response.tag.TagCreateResponse;
 import org.sourcelab.http.rest.request.Request;
 import org.sourcelab.http.rest.request.RequestMethod;
@@ -29,7 +26,6 @@ import org.sourcelab.http.rest.request.body.RequestBodyContent;
 import org.sourcelab.http.rest.request.body.StringBodyContent;
 
 import java.io.IOException;
-import java.util.Objects;
 
 /**
  * Represents a tag create request.

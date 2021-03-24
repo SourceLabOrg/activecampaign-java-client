@@ -26,6 +26,7 @@ import org.sourcelab.activecampaign.apiv3.request.account.AccountRetrieveRequest
 import org.sourcelab.activecampaign.apiv3.request.account.AccountUpdateRequest;
 import org.sourcelab.activecampaign.apiv3.request.contact.Contact;
 import org.sourcelab.activecampaign.apiv3.request.contact.ContactCreateRequest;
+import org.sourcelab.activecampaign.apiv3.request.contact.ContactGetRequest;
 import org.sourcelab.activecampaign.apiv3.request.contact.ContactUpdateRequest;
 import org.sourcelab.activecampaign.apiv3.request.contactList.ContactListSubscribeRequest;
 import org.sourcelab.activecampaign.apiv3.request.contactTag.ContactTag;
@@ -46,6 +47,7 @@ import org.sourcelab.activecampaign.apiv3.response.account.Account;
 import org.sourcelab.activecampaign.apiv3.response.account.AccountListResponse;
 import org.sourcelab.activecampaign.apiv3.response.account.AccountResponse;
 import org.sourcelab.activecampaign.apiv3.response.contact.ContactCreateResponse;
+import org.sourcelab.activecampaign.apiv3.response.contact.ContactGetResponse;
 import org.sourcelab.activecampaign.apiv3.response.contact.ContactUpdateResponse;
 import org.sourcelab.activecampaign.apiv3.response.contactTag.ContactTagCreateResponse;
 import org.sourcelab.activecampaign.apiv3.response.contactTag.ContactTagDeleteResponse;
@@ -139,6 +141,10 @@ public class ActiveCampaignClient extends AbstractClient {
      */
     public boolean accountDelete(final Account account) {
         return submitRequest(new AccountDeleteRequest(account));
+    }
+
+    public ContactGetResponse getContact(final Long id) {
+        return submitRequest(new ContactGetRequest(id));
     }
 
     public ContactCreateResponse contactCreate(final Contact contactToCreate) {

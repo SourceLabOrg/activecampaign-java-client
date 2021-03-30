@@ -28,8 +28,6 @@ import java.util.List;
 public class EcomOrder {
     @JsonProperty("externalid")
     private final String externalId;
-    @JsonProperty("externalcheckoutid")
-    private final String externalCheckoutId;
     private final Long source;
     private final String email;
     private final List<Product> orderProducts;
@@ -42,11 +40,10 @@ public class EcomOrder {
     @JsonProperty("customerid")
     private final Long customerId;
 
-    public EcomOrder(String externalId, String externalCheckoutId, Long source, String email, List<Product> orderProducts,
+    public EcomOrder(String externalId, Long source, String email, List<Product> orderProducts,
                      LocalDate externalCreatedDate, String shippingMethod, Integer totalPrice, String currency,
                      Long connectionId, Long customerId) {
         this.externalId = externalId;
-        this.externalCheckoutId = externalCheckoutId;
         this.source = source;
         this.email = email;
         this.orderProducts = orderProducts;
@@ -60,10 +57,6 @@ public class EcomOrder {
 
     public String getExternalId() {
         return externalId;
-    }
-
-    public String getExternalCheckoutId() {
-        return externalCheckoutId;
     }
 
     public Long getSource() {

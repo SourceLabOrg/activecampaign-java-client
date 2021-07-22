@@ -30,7 +30,7 @@ public class CustomFieldListRequest implements GetRequest<CustomFieldListRespons
 
     @Override
     public String getApiEndpoint() {
-        return "api/3/fields";
+        return "api/3/fields?limit=100";
     }
 
     @Override

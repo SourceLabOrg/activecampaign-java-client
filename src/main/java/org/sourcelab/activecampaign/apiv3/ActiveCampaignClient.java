@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 SourceLab.org https://github.com/SourceLabOrg/activecampaign-java-client
+ * Copyright 2019, 2020, 2021 SourceLab.org https://github.com/SourceLabOrg/activecampaign-java-client
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -14,7 +14,6 @@
  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
 package org.sourcelab.activecampaign.apiv3;
 
 import org.sourcelab.activecampaign.AbstractClient;
@@ -28,6 +27,7 @@ import org.sourcelab.activecampaign.apiv3.request.contact.Contact;
 import org.sourcelab.activecampaign.apiv3.request.contact.ContactCreateRequest;
 import org.sourcelab.activecampaign.apiv3.request.contact.ContactGetRequest;
 import org.sourcelab.activecampaign.apiv3.request.contact.ContactUpdateRequest;
+import org.sourcelab.activecampaign.apiv3.request.contact.ContactRetrieveRequest;
 import org.sourcelab.activecampaign.apiv3.request.contactList.ContactListSubscribeRequest;
 import org.sourcelab.activecampaign.apiv3.request.contactTag.ContactTag;
 import org.sourcelab.activecampaign.apiv3.request.contactTag.ContactTagCreateRequest;
@@ -49,6 +49,7 @@ import org.sourcelab.activecampaign.apiv3.response.account.AccountResponse;
 import org.sourcelab.activecampaign.apiv3.response.contact.ContactCreateResponse;
 import org.sourcelab.activecampaign.apiv3.response.contact.ContactGetResponse;
 import org.sourcelab.activecampaign.apiv3.response.contact.ContactUpdateResponse;
+import org.sourcelab.activecampaign.apiv3.response.contact.ContactRetrieveResponse;
 import org.sourcelab.activecampaign.apiv3.response.contactTag.ContactTagCreateResponse;
 import org.sourcelab.activecampaign.apiv3.response.contactTag.ContactTagDeleteResponse;
 import org.sourcelab.activecampaign.apiv3.response.customField.CustomFieldListResponse;
@@ -173,6 +174,10 @@ public class ActiveCampaignClient extends AbstractClient {
 
     public Void createEcomOrder(final EcomOrder ecomOrder) {
         return submitRequest(new EcomOrderPostRequest(ecomOrder));
+    }
+
+    public ContactRetrieveResponse contactRetrieve(final long contactId) {
+        return submitRequest(new ContactRetrieveRequest(contactId));
     }
 
     public TagListResponse tagList() {

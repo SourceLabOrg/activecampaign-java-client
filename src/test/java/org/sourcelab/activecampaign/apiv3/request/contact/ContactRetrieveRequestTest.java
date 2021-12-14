@@ -14,53 +14,39 @@
  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.sourcelab.activecampaign.apiv3.request.account;
+package org.sourcelab.activecampaign.apiv3.request.contact;
 
+import org.junit.jupiter.api.Test;
+import org.sourcelab.activecampaign.apiv3.request.AbstractRequestTest;
+import org.sourcelab.activecampaign.apiv3.request.account.AccountRetrieveRequest;
 import org.sourcelab.activecampaign.apiv3.response.account.Account;
-import org.sourcelab.http.rest.request.Request;
-import org.sourcelab.http.rest.request.RequestMethod;
-import org.sourcelab.http.rest.request.body.NoBodyContent;
-import org.sourcelab.http.rest.request.body.RequestBodyContent;
+import org.sourcelab.activecampaign.apiv3.response.contact.ContactRetrieveResponse;
 
 import java.io.IOException;
-import java.util.Objects;
+import java.time.ZonedDateTime;
 
-/**
- * Represents an account delete request.
- */
-public class AccountDeleteRequest implements Request<Boolean> {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-    private final long id;
+class ContactRetrieveRequestTest extends AbstractRequestTest {
+    /**
+     * Test parsing a mocked response.
+     */
+    @Test
+    void testParsingResponse() throws IOException {
+        final String input = readFile("getContact.json");
+        final ContactRetrieveResponse response = new ContactRetrieveRequest(1L)
+            .parseResponse(input);
 
-    public AccountDeleteRequest(final long id) {
-        this.id = id;
-    }
 
-    public AccountDeleteRequest(final Account account) {
-        Objects.requireNonNull(account);
-        if (account.getId() == null) {
-            throw new IllegalArgumentException("Account must have Id property set");
-        }
-        this.id = account.getId();
-    }
+        // Parse and validate contact
+        final Contact contact = response.getContact();
+        assertEquals(1L, contact.getId());
+        assertEquals("Test_FirstName", contact.getFirstName());
+        assertEquals("Test_LastName", contact.getLastName());
+        assertEquals("contact.email@example.com", contact.getEmail());
+        assertEquals("123-123-1234", contact.getPhone());
 
-    @Override
-    public String getApiEndpoint() {
-        return "api/3/accounts/" + id;
-    }
-
-    @Override
-    public RequestMethod getRequestMethod() {
-        return RequestMethod.DELETE;
-    }
-
-    @Override
-    public RequestBodyContent getRequestBody() {
-        return new NoBodyContent();
-    }
-
-    @Override
-    public Boolean parseResponse(final String response) throws IOException {
-        return true;
+        // Parse and validate links
     }
 }

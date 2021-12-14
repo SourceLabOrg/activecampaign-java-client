@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 SourceLab.org https://github.com/SourceLabOrg/activecampaign-java-client
+ * Copyright 2019, 2020, 2021 SourceLab.org https://github.com/SourceLabOrg/activecampaign-java-client
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -14,7 +14,6 @@
  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
 package org.sourcelab.activecampaign.apiv3.request.contact;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -25,7 +24,9 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -41,6 +42,9 @@ public class Contact {
     private final String phone;
     private final List<FieldValue> fieldValues;
 
+    // Related links
+    private final Map<String, String> links;
+
     public static ContactBuilder newBuilder() {
         return new ContactBuilder();
     }
@@ -52,7 +56,8 @@ public class Contact {
         @JsonProperty("firstName") final String firstName,
         @JsonProperty("lastName") final String lastName,
         @JsonProperty("phone") final String phone,
-        final List<FieldValue> fieldValues
+        final List<FieldValue> fieldValues,
+        @JsonProperty("links") final Map<String, String> links
     ) {
         this.id = id;
         this.email = email;
@@ -63,6 +68,12 @@ public class Contact {
             this.fieldValues = Collections.emptyList();
         } else {
             this.fieldValues = Collections.unmodifiableList(new ArrayList<>(fieldValues));
+        }
+
+        if (links == null) {
+            this.links = Collections.emptyMap();
+        } else {
+            this.links = Collections.unmodifiableMap(new HashMap<>(links));
         }
     }
 
@@ -88,6 +99,10 @@ public class Contact {
 
     public List<FieldValue> getFieldValues() {
         return fieldValues;
+    }
+
+    public Map<String, String> getLinks() {
+        return links;
     }
 
     @Override

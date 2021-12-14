@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 SourceLab.org https://github.com/SourceLabOrg/activecampaign-java-client
+ * Copyright 2019, 2020, 2021 SourceLab.org https://github.com/SourceLabOrg/activecampaign-java-client
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -14,7 +14,6 @@
  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
 package org.sourcelab.activecampaign.apiv3.response.contact;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -23,6 +22,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.sourcelab.activecampaign.apiv3.request.contact.Contact;
 import org.sourcelab.activecampaign.apiv3.request.contact.ContactBuilder;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +51,10 @@ public class ContactCreateResponse {
             .withId((String) contactValues.get("id"));
 
         fieldValues.forEach((fieldValue) -> builder.withField(fieldValue.getField(), fieldValue.getValue()));
+
+        if (contactValues.containsKey("links")) {
+            builder.withLinks((Map<String, String>) contactValues.get("links"));
+        }
 
         this.contact = builder.build();
     }

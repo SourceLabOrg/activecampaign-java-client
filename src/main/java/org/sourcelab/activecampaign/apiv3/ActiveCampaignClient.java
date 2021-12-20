@@ -25,12 +25,20 @@ import org.sourcelab.activecampaign.apiv3.request.account.AccountRetrieveRequest
 import org.sourcelab.activecampaign.apiv3.request.account.AccountUpdateRequest;
 import org.sourcelab.activecampaign.apiv3.request.contact.Contact;
 import org.sourcelab.activecampaign.apiv3.request.contact.ContactCreateRequest;
+import org.sourcelab.activecampaign.apiv3.request.contact.ContactGetRequest;
+import org.sourcelab.activecampaign.apiv3.request.contact.ContactUpdateRequest;
 import org.sourcelab.activecampaign.apiv3.request.contact.ContactRetrieveRequest;
 import org.sourcelab.activecampaign.apiv3.request.contactList.ContactListSubscribeRequest;
 import org.sourcelab.activecampaign.apiv3.request.contactTag.ContactTag;
 import org.sourcelab.activecampaign.apiv3.request.contactTag.ContactTagCreateRequest;
 import org.sourcelab.activecampaign.apiv3.request.contactTag.ContactTagDeleteRequest;
 import org.sourcelab.activecampaign.apiv3.request.customField.CustomFieldListRequest;
+import org.sourcelab.activecampaign.apiv3.request.ecomCustomer.EcomCustomer;
+import org.sourcelab.activecampaign.apiv3.request.ecomCustomer.EcomCustomerDeleteRequest;
+import org.sourcelab.activecampaign.apiv3.request.ecomCustomer.EcomCustomerGetRequest;
+import org.sourcelab.activecampaign.apiv3.request.ecomCustomer.EcomCustomerPostRequest;
+import org.sourcelab.activecampaign.apiv3.request.ecomOrder.EcomOrder;
+import org.sourcelab.activecampaign.apiv3.request.ecomOrder.EcomOrderPostRequest;
 import org.sourcelab.activecampaign.apiv3.request.list.ListListRequest;
 import org.sourcelab.activecampaign.apiv3.request.tag.TagCreateRequest;
 import org.sourcelab.activecampaign.apiv3.request.tag.TagListRequest;
@@ -39,10 +47,13 @@ import org.sourcelab.activecampaign.apiv3.response.account.Account;
 import org.sourcelab.activecampaign.apiv3.response.account.AccountListResponse;
 import org.sourcelab.activecampaign.apiv3.response.account.AccountResponse;
 import org.sourcelab.activecampaign.apiv3.response.contact.ContactCreateResponse;
+import org.sourcelab.activecampaign.apiv3.response.contact.ContactGetResponse;
+import org.sourcelab.activecampaign.apiv3.response.contact.ContactUpdateResponse;
 import org.sourcelab.activecampaign.apiv3.response.contact.ContactRetrieveResponse;
 import org.sourcelab.activecampaign.apiv3.response.contactTag.ContactTagCreateResponse;
 import org.sourcelab.activecampaign.apiv3.response.contactTag.ContactTagDeleteResponse;
 import org.sourcelab.activecampaign.apiv3.response.customField.CustomFieldListResponse;
+import org.sourcelab.activecampaign.apiv3.response.ecomCustomer.EcomCustomerResponse;
 import org.sourcelab.activecampaign.apiv3.response.list.ListListResponse;
 import org.sourcelab.activecampaign.apiv3.response.tag.TagCreateResponse;
 import org.sourcelab.activecampaign.apiv3.response.tag.TagListResponse;
@@ -133,12 +144,36 @@ public class ActiveCampaignClient extends AbstractClient {
         return submitRequest(new AccountDeleteRequest(account));
     }
 
+    public ContactGetResponse getContact(final Long id) {
+        return submitRequest(new ContactGetRequest(id));
+    }
+
     public ContactCreateResponse contactCreate(final Contact contactToCreate) {
         return submitRequest(new ContactCreateRequest(contactToCreate));
     }
 
+    public ContactUpdateResponse updateContact(final Contact contactToUpdate) {
+        return submitRequest(new ContactUpdateRequest(contactToUpdate));
+    }
+
     public ContactCreateResponse contactSync(final Contact contactToCreate) {
         return submitRequest(new ContactCreateRequest(contactToCreate));
+    }
+
+    public EcomCustomerResponse getEcomCustomer(final Long id) {
+        return submitRequest(new EcomCustomerGetRequest(id));
+    }
+
+    public EcomCustomerResponse createEcomCustomer(final EcomCustomer ecomCustomer) {
+        return submitRequest(new EcomCustomerPostRequest(ecomCustomer));
+    }
+
+    public Void deleteEcomCustomer(final Long id) {
+        return submitRequest(new EcomCustomerDeleteRequest(id));
+    }
+
+    public Void createEcomOrder(final EcomOrder ecomOrder) {
+        return submitRequest(new EcomOrderPostRequest(ecomOrder));
     }
 
     public ContactRetrieveResponse contactRetrieve(final long contactId) {

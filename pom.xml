@@ -50,18 +50,19 @@
         <http-components.version>4.5.13</http-components.version>
 
         <!-- Jackson version -->
-        <jackson.version>2.12.1</jackson.version>
+        <jackson.version>2.13.0</jackson.version>
 
         <!-- Specify which Checkstyle ruleset to use -->
         <checkstyle.ruleset>build/checkstyle.xml</checkstyle.ruleset>
         <checkstyle.plugin.version>3.1.2</checkstyle.plugin.version>
         <checkstyle.version>8.29</checkstyle.version>
 
-        <!-- Log4J Version -->
-        <log4j2.version>2.17.0</log4j2.version>
-        <slf4j.version>1.7.30</slf4j.version>
+        <!-- Logging version -->
+        <slf4j.version>1.7.32</slf4j.version>
 
-        <!-- test toggling -->
+        <!-- tests -->
+        <junit.version>5.8.2</junit.version>
+        <mockito.version>4.1.0</mockito.version>
         <skipTests>false</skipTests>
         <skipCodeCoverage>true</skipCodeCoverage>
         <skipCheckStyle>false</skipCheckStyle>
@@ -107,13 +108,13 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.7.1</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.7.1</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -121,7 +122,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.8.0</version>
+            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -137,27 +138,15 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
-            <version>9.4.37.v20210219</version>
+            <version>11.0.6</version>
             <scope>test</scope>
         </dependency>
 
         <!-- Logging in tests -->
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>${log4j2.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>${log4j2.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>${log4j2.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>${slf4j.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -192,65 +181,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Enforce check styles validation -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>${checkstyle.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>checkstyle-validate</id>
-                        <phase>validate</phase><!-- when we need to run checkstyle::check -->
-                        <configuration>
-                            <configLocation>${checkstyle.ruleset}</configLocation>
-                            <encoding>utf-8</encoding>
-                            <consoleOutput>true</consoleOutput>
-                            <violationSeverity>warning</violationSeverity>
-                            <failsOnError>true</failsOnError>
-                            <enableRSS>false</enableRSS>
-
-                            <!-- By default we run checkstyle validation-->
-                            <skip>${skipCheckStyle}</skip>
-                        </configuration>
-                        <goals>
-                            <!-- Generate site/html report -->
-                            <goal>checkstyle</goal>
-
-                            <!-- Enforce failing build on checkstyle failure -->
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- License Auditing -->
-            <plugin>
-                <groupId>com.mycila</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <version>3.0</version>
-                <configuration>
-                    <header>LICENSE.txt</header>
-                    <excludes>
-                        <exclude>**/.md</exclude>
-                        <exclude>**/.bak</exclude>
-                        <exclude>**.yml</exclude>
-                        <exclude>**.yaml</exclude>
-                        <exclude>**.xml</exclude>
-                        <exclude>build/**</exclude>
-                        <exclude>src/test/resources/**</exclude>
-                        <exclude>src/main/resources/**</exclude>
-                    </excludes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
             <!-- Release plugin -->
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
@@ -264,24 +194,6 @@
                 </configuration>
             </plugin>
         </plugins>
-
-        <pluginManagement>
-            <plugins>
-                <!-- Use a current version of checkstyle -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>${checkstyle.plugin.version}</version>
-                    <dependencies>
-                        <dependency>
-                            <groupId>com.puppycrawl.tools</groupId>
-                            <artifactId>checkstyle</artifactId>
-                            <version>${checkstyle.version}</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-            </plugins>
-        </pluginManagement>
     </build>
 
     <!-- For deploying to maven central -->

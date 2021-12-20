@@ -1,5 +1,5 @@
 /**
- * Copyright 2019, 2020, 2021 SourceLab.org https://github.com/SourceLabOrg/activecampaign-java-client
+ * Copyright 2021 Unicornify https://github.com/unicornify/activecampaign-java-client
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -14,26 +14,41 @@
  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.sourcelab.activecampaign.apiv3.request.customField;
+
+package org.sourcelab.activecampaign.apiv3.request.ecomCustomer;
 
 import org.sourcelab.activecampaign.JacksonFactory;
-import org.sourcelab.activecampaign.apiv3.response.customField.CustomFieldListResponse;
-import org.sourcelab.http.rest.request.GetRequest;
+import org.sourcelab.http.rest.request.Request;
+import org.sourcelab.http.rest.request.RequestMethod;
+import org.sourcelab.http.rest.request.body.NoBodyContent;
+import org.sourcelab.http.rest.request.body.RequestBodyContent;
 
 import java.io.IOException;
 
-/**
- * Represents an account list request.
- */
-public class CustomFieldListRequest implements GetRequest<CustomFieldListResponse> {
+public class EcomCustomerDeleteRequest implements Request<Void> {
+    private final Long id;
 
-    @Override
-    public String getApiEndpoint() {
-        return "api/3/fields?limit=100";
+    public EcomCustomerDeleteRequest(Long id) {
+        this.id = id;
     }
 
     @Override
-    public CustomFieldListResponse parseResponse(final String response) throws IOException {
-        return JacksonFactory.newInstance().readValue(response, CustomFieldListResponse.class);
+    public String getApiEndpoint() {
+        return "api/3/ecomCustomers/" + id;
+    }
+
+    @Override
+    public RequestMethod getRequestMethod() {
+        return RequestMethod.DELETE;
+    }
+
+    @Override
+    public RequestBodyContent getRequestBody() {
+        return new NoBodyContent();
+    }
+
+    @Override
+    public Void parseResponse(final String response) throws IOException {
+        return JacksonFactory.newInstance().readValue(response, Void.class);
     }
 }

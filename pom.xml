@@ -50,7 +50,7 @@
         <http-components.version>4.5.13</http-components.version>
 
         <!-- Jackson version -->
-        <jackson.version>2.12.1</jackson.version>
+        <jackson.version>2.12.6.1</jackson.version>
 
         <!-- Specify which Checkstyle ruleset to use -->
         <checkstyle.ruleset>build/checkstyle.xml</checkstyle.ruleset>
